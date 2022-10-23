@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <rect x="188" y="50" width="10" height="400" style="fill: rgb(97, 115, 49); stroke: rgb(97, 115, 49);"/>
+  <rect x="317" y="49.446" width="10" height="400" style="fill: rgb(102, 92, 31); stroke: rgb(97, 115, 49);"/>
+  <rect x="50" y="188" width="400" height="10" style="fill: rgb(97, 115, 49); stroke: rgb(97, 115, 49);"/>
+  <rect x="50" y="317" width="400" height="10" style="fill: rgb(97, 115, 49); stroke: rgb(97, 115, 49);"/>
+  <rect x="414.983" y="87.608" width="15" height="120" style="fill: rgb(141, 58, 35); stroke: rgb(141, 58, 35);" transform="matrix(0.707108, 0.707106, -0.707106, 0.707108, 63.805214, -283.566864)"/>
+  <rect x="414.983" y="87.608" width="15" height="120" style="fill: rgb(141, 58, 35); stroke: rgb(141, 58, 35);" transform="matrix(0.707106, -0.707108, 0.707108, 0.707106, -147.711823, 313.914825)"/>
+  <path d="M 124.307 390.981 m -50 0 a 50 50 0 1 0 100 0 a 50 50 0 1 0 -100 0 Z M 124.307 390.981 m -35 0 a 35 35 0 0 1 70 0 a 35 35 0 0 1 -70 0 Z" style="stroke: rgb(70, 54, 194); fill: rgb(99, 37, 213);" bx:shape="ring 124.307 390.981 35 35 50 50 1@6d545659"/>
+  <rect x="414.983" y="87.608" width="15" height="120" style="fill: rgb(141, 58, 35); stroke: rgb(141, 58, 35);" transform="matrix(0.707108, 0.707106, -0.707106, 0.707108, 64.912636, -146.800522)"/>
+  <rect x="414.983" y="87.608" width="15" height="120" style="fill: rgb(141, 58, 35); stroke: rgb(141, 58, 35);" transform="matrix(0.707106, -0.707108, 0.707108, 0.707106, -146.604401, 450.681152)"/>
+  <path d="M 388.427 119.11 m -50 0 a 50 50 0 1 0 100 0 a 50 50 0 1 0 -100 0 Z M 388.427 119.11 m -35 0 a 35 35 0 0 1 70 0 a 35 35 0 0 1 -70 0 Z" style="stroke: rgb(70, 54, 194); fill: rgb(99, 37, 213);" bx:shape="ring 388.427 119.11 35 35 50 50 1@5e01dbc5"/>
+</svg>
