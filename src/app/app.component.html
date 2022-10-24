@@ -1,3 +1,9 @@
-<h1 class="game-title">Tic Tac Toe</h1>
-<div><img src="assets/images/x.svg" alt="x" width="300" height="300" /></div>
-<div><img src="assets/images/o.svg" alt="o" width="300" height="300" /></div>
+<div class="content-container">
+  <h1 class="game-title">Tic Tac Toe</h1>
+  <div class="buttons-container">
+    <button>New Game</button>
+  </div>
+  <div class="cells-container">
+    <button class="button-cell" *ngFor="let info of cells"></button>
+  </div>
+</div>
