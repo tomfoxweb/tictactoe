@@ -6,5 +6,6 @@ export const enum PlayerFigure {
 }
 
 export interface Player {
+  setFigure(figure: PlayerFigure): void;
   selectPosition(gameMap: GameMap): Promise<Position>;
 }

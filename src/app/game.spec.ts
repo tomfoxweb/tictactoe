@@ -1,6 +1,6 @@
 import { Game } from './game';
 import { Row, Column, CellType, GameMap, Position } from './game-map';
-import { Player } from './player';
+import { Player, PlayerFigure } from './player';
 import { Viewable } from './viewable';
 
 class TestView implements Viewable {
@@ -10,6 +10,8 @@ class TestView implements Viewable {
 }
 
 class TestPlayer implements Player {
+  setFigure(figure: PlayerFigure): void {}
+
   selectPosition(gameMap: GameMap): Promise<Position> {
     return Promise.resolve({ row: 0, column: 0 });
   }
