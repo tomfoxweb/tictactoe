@@ -24,3 +24,27 @@ describe('Game constructor', () => {
     expect(game).toBeDefined();
   });
 });
+
+describe('Game start', () => {
+  let game: Game;
+  let view: TestView;
+  let firstPlayer: TestPlayer;
+  let secondPlayer: TestPlayer;
+  let spyFirstPlayerSetFigure: any;
+  let spySecondPlayerSetFigure: any;
+
+  beforeEach(() => {
+    view = new TestView();
+    game = new Game(view);
+    firstPlayer = new TestPlayer();
+    secondPlayer = new TestPlayer();
+    spyFirstPlayerSetFigure = spyOn(firstPlayer, 'setFigure');
+    spySecondPlayerSetFigure = spyOn(secondPlayer, 'setFigure');
+    game.start(firstPlayer, secondPlayer);
+  });
+
+  it('should call setFigure for first and second players', () => {
+    expect(spyFirstPlayerSetFigure).toHaveBeenCalledWith(PlayerFigure.X);
+    expect(spySecondPlayerSetFigure).toHaveBeenCalledWith(PlayerFigure.O);
+  });
+});
