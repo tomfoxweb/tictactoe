@@ -32,6 +32,7 @@ describe('Game start', () => {
   let secondPlayer: TestPlayer;
   let spyFirstPlayerSetFigure: any;
   let spySecondPlayerSetFigure: any;
+  let spyFirstPlayerSelectPosition: any;
 
   beforeEach(() => {
     view = new TestView();
@@ -40,11 +41,21 @@ describe('Game start', () => {
     secondPlayer = new TestPlayer();
     spyFirstPlayerSetFigure = spyOn(firstPlayer, 'setFigure');
     spySecondPlayerSetFigure = spyOn(secondPlayer, 'setFigure');
+    spyFirstPlayerSelectPosition = spyOn(firstPlayer, 'selectPosition');
     game.start(firstPlayer, secondPlayer);
   });
 
   it('should call setFigure for first and second players', () => {
     expect(spyFirstPlayerSetFigure).toHaveBeenCalledWith(PlayerFigure.X);
     expect(spySecondPlayerSetFigure).toHaveBeenCalledWith(PlayerFigure.O);
+  });
+
+  it('should call first player selectPosition', () => {
+    const gameMap: GameMap = [
+      [CellType.EMPTY, CellType.EMPTY, CellType.EMPTY],
+      [CellType.EMPTY, CellType.EMPTY, CellType.EMPTY],
+      [CellType.EMPTY, CellType.EMPTY, CellType.EMPTY],
+    ];
+    expect(spyFirstPlayerSelectPosition).toHaveBeenCalledWith(gameMap);
   });
 });
