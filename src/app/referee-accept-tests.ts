@@ -42,4 +42,15 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     accepted: false,
     status: GameStatus.incorrectPlayerOPosition,
   },
+  {
+    title: 'should not accept position for X on same place as O',
+    gameMap: [
+      [Cell.X, Cell.EMPTY, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+      [Cell.EMPTY, Cell.O, Cell.EMPTY],
+    ],
+    args: { playerFigure: PlayerFigure.X, position: { row: 2, column: 1 } },
+    accepted: false,
+    status: GameStatus.incorrectPlayerXPosition,
+  },
 ];
