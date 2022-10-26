@@ -1,4 +1,3 @@
-import { count } from 'rxjs';
 import {
   Cell,
   Column,
@@ -14,6 +13,7 @@ import { Viewable } from './viewable';
 export const enum GameStatus {
   awaitFirstPlayer,
   awaitSecondPlayer,
+  incorrectMap,
 }
 
 export class Referee {
@@ -43,6 +43,7 @@ export class Referee {
     const countO = flatMap.reduce((c, x) => (x === Cell.O ? c + 1 : c), 0);
     const countDiff = countX - countO;
     if (countDiff < 0 || countDiff > 1) {
+      this.gameStatus = GameStatus.incorrectMap;
       return false;
     }
     if (countDiff === 0) {

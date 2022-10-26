@@ -5,7 +5,7 @@ export interface RefereeNewGameTest {
   title: string;
   gameMap: GameMap;
   started: boolean;
-  status?: GameStatus;
+  status: GameStatus;
 }
 
 export const refereeNewGameTests: RefereeNewGameTest[] = [
@@ -36,6 +36,17 @@ export const refereeNewGameTests: RefereeNewGameTest[] = [
       [Cell.EMPTY, Cell.O, Cell.EMPTY],
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ],
+    status: GameStatus.incorrectMap,
+    started: false,
+  },
+  {
+    title: 'should not start if 3 cell X',
+    gameMap: [
+      [Cell.EMPTY, Cell.X, Cell.EMPTY],
+      [Cell.EMPTY, Cell.X, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.X],
+    ],
+    status: GameStatus.incorrectMap,
     started: false,
   },
 ];
