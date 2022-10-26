@@ -36,7 +36,7 @@ export class Referee {
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ]
-  ): void {
+  ): boolean {
     this.gameMap = gameMap;
     this.gameStatus = GameStatus.awaitFirstPlayer;
     for (let row = 0; row < ROW_COUNT; row++) {
@@ -45,6 +45,7 @@ export class Referee {
         this.view.showCell(row as Row, column as Column, cell);
       }
     }
+    return true;
   }
 
   getStatus(): GameStatus {

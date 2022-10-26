@@ -2,6 +2,7 @@ import { Cell, Column, GameMap, Position, Row } from './game-map';
 import { Player, PlayerFigure } from './player';
 import { GameStatus, Referee } from './referee';
 import { refereeAcceptTests } from './referee-accept-tests';
+import { refereeNewGameTests } from './referee-newgame-tests';
 import { Viewable } from './viewable';
 
 class TestView implements Viewable {
@@ -10,7 +11,7 @@ class TestView implements Viewable {
   showDraw(): void {}
 }
 
-describe('Referee newGame with empty map', () => {
+describe('Referee newGame', () => {
   let spyViewShowCell: any;
   let referee: Referee;
 
@@ -18,50 +19,27 @@ describe('Referee newGame with empty map', () => {
     const view = new TestView();
     referee = new Referee(view);
     spyViewShowCell = spyOn(view, 'showCell');
-    referee.newGame();
   });
-  it('should call view showCell with empty for all cells', () => {
-    const cell = Cell.EMPTY;
-    for (let row = 0; row < 3; row++) {
-      for (let column = 0; column < 3; column++) {
-        expect(spyViewShowCell).toHaveBeenCalledWith(row, column, cell);
+
+  const tests = refereeNewGameTests;
+
+  tests.forEach((test) => {
+    it(test.title, () => {
+      const started = referee.newGame(test.gameMap);
+      const status = referee.getStatus();
+      expect(started).toBe(test.started);
+      expect(status).toBe(GameStatus.awaitFirstPlayer);
+      if (test.started) {
+        for (let row = 0; row < 3; row++) {
+          for (let column = 0; column < 3; column++) {
+            const cell = test.gameMap[row][column];
+            expect(spyViewShowCell).toHaveBeenCalledWith(row, column, cell);
+          }
+        }
+      } else {
+        expect(spyViewShowCell).not.toHaveBeenCalled();
       }
-    }
-  });
-
-  it('should set game status to await first player', () => {
-    const status = referee.getStatus();
-    expect(status).toBe(GameStatus.awaitFirstPlayer);
-  });
-});
-
-describe('Referee newGame with map', () => {
-  let spyViewShowCell: any;
-  let referee: Referee;
-  const gameMap: GameMap = [
-    [Cell.EMPTY, Cell.X, Cell.EMPTY],
-    [Cell.EMPTY, Cell.X, Cell.EMPTY],
-    [Cell.O, Cell.O, Cell.EMPTY],
-  ];
-
-  beforeEach(() => {
-    const view = new TestView();
-    referee = new Referee(view);
-    spyViewShowCell = spyOn(view, 'showCell');
-    referee.newGame(gameMap);
-  });
-  it('should call correct view showCell for all cells', () => {
-    for (let row = 0; row < 3; row++) {
-      for (let column = 0; column < 3; column++) {
-        const cell = gameMap[row][column];
-        expect(spyViewShowCell).toHaveBeenCalledWith(row, column, cell);
-      }
-    }
-  });
-
-  it('should set game status to await first player', () => {
-    const status = referee.getStatus();
-    expect(status).toBe(GameStatus.awaitFirstPlayer);
+    });
   });
 });
 
