@@ -1,3 +1,4 @@
+import { count } from 'rxjs';
 import {
   Cell,
   Column,
@@ -37,8 +38,19 @@ export class Referee {
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ]
   ): boolean {
+    const flatMap = gameMap.flat();
+    const countX = flatMap.reduce((c, x) => (x === Cell.X ? c + 1 : c), 0);
+    const countO = flatMap.reduce((c, x) => (x === Cell.O ? c + 1 : c), 0);
+    const countDiff = countX - countO;
+    if (countDiff < 0 || countDiff > 1) {
+      return false;
+    }
+    if (countDiff === 0) {
+      this.gameStatus = GameStatus.awaitFirstPlayer;
+    } else {
+      this.gameStatus = GameStatus.awaitSecondPlayer;
+    }
     this.gameMap = gameMap;
-    this.gameStatus = GameStatus.awaitFirstPlayer;
     for (let row = 0; row < ROW_COUNT; row++) {
       for (let column = 0; column < COLUMN_COUNT; column++) {
         const cell = this.gameMap[row][column];

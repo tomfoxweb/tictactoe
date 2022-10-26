@@ -28,7 +28,7 @@ describe('Referee newGame', () => {
       const started = referee.newGame(test.gameMap);
       const status = referee.getStatus();
       expect(started).toBe(test.started);
-      expect(status).toBe(GameStatus.awaitFirstPlayer);
+      expect(status).toBe(test.status);
       if (test.started) {
         for (let row = 0; row < 3; row++) {
           for (let column = 0; column < 3; column++) {

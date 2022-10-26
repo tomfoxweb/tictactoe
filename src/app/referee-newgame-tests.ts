@@ -19,4 +19,14 @@ export const refereeNewGameTests: RefereeNewGameTest[] = [
     started: true,
     status: GameStatus.awaitFirstPlayer,
   },
+  {
+    title: 'should start with status await second show all empty but first',
+    gameMap: [
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+      [Cell.EMPTY, Cell.X, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+    ],
+    started: true,
+    status: GameStatus.awaitSecondPlayer,
+  },
 ];
