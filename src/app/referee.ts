@@ -51,8 +51,9 @@ export class Referee {
     return this.gameStatus;
   }
 
-  acceptPosition(playerFigure: PlayerFigure, position: Position): void {
+  acceptPosition(playerFigure: PlayerFigure, position: Position): boolean {
     this.view.showCell(position.row, position.column, Cell.X);
     this.gameStatus = GameStatus.awaitSecondPlayer;
+    return true;
   }
 }

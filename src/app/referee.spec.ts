@@ -79,7 +79,11 @@ describe('Referee acceptPosition', () => {
   tests.forEach((test) => {
     it(test.title, () => {
       referee.newGame(test.gameMap);
-      referee.acceptPosition(test.args.playerFigure, test.args.position);
+      const accepted = referee.acceptPosition(
+        test.args.playerFigure,
+        test.args.position
+      );
+      expect(accepted).toBe(test.accepted);
       if (test.showPosition) {
         expect(spyViewShowCell).toHaveBeenCalledWith(
           test.showPosition.row,
