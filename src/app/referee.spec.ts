@@ -1,6 +1,7 @@
 import { Cell, Column, GameMap, Position, Row } from './game-map';
 import { Player, PlayerFigure } from './player';
 import { GameStatus, Referee } from './referee';
+import { refereeAcceptTests } from './referee-accept-tests';
 import { Viewable } from './viewable';
 
 class TestView implements Viewable {
@@ -74,12 +75,19 @@ describe('Referee acceptPosition', () => {
     spyViewShowCell = spyOn(view, 'showCell');
   });
 
-  it('should call showCell and switch game status', () => {
-    referee.newGame();
-    const position: Position = { row: 1, column: 1 };
-    referee.acceptPosition(PlayerFigure.X, position);
-    expect(spyViewShowCell).toHaveBeenCalledWith(1, 1, Cell.X);
-    const expectedStatus = GameStatus.awaitSecondPlayer;
-    expect(referee.getStatus()).toBe(expectedStatus);
+  const tests = refereeAcceptTests;
+  tests.forEach((test) => {
+    it(test.title, () => {
+      referee.newGame(test.gameMap);
+      referee.acceptPosition(test.args.playerFigure, test.args.position);
+      if (test.showPosition) {
+        expect(spyViewShowCell).toHaveBeenCalledWith(
+          test.showPosition.row,
+          test.showPosition.column,
+          test.showPosition.cell
+        );
+      }
+      expect(referee.getStatus()).toBe(test.status);
+    });
   });
 });
