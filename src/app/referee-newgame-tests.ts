@@ -49,4 +49,14 @@ export const refereeNewGameTests: RefereeNewGameTest[] = [
     status: GameStatus.incorrectMap,
     started: false,
   },
+  {
+    title: 'should not start if X - O === 2',
+    gameMap: [
+      [Cell.EMPTY, Cell.X, Cell.O],
+      [Cell.EMPTY, Cell.X, Cell.O],
+      [Cell.X, Cell.EMPTY, Cell.X],
+    ],
+    status: GameStatus.incorrectMap,
+    started: false,
+  },
 ];
