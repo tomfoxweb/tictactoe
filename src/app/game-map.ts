@@ -9,14 +9,14 @@ export interface Position {
   column: Column;
 }
 
-export const enum CellType {
+export const enum Cell {
   EMPTY,
   X,
   O,
 }
 
 export type GameMap = [
-  [CellType, CellType, CellType],
-  [CellType, CellType, CellType],
-  [CellType, CellType, CellType]
+  [Cell, Cell, Cell],
+  [Cell, Cell, Cell],
+  [Cell, Cell, Cell]
 ];

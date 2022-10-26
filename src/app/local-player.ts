@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { CellType, GameMap, Position } from './game-map';
+import { Cell, GameMap, Position } from './game-map';
 import { PlayerFigure } from './player';
 
 export class LocalPlayer {
@@ -12,7 +12,7 @@ export class LocalPlayer {
   async selectPosition(gameMap: GameMap): Promise<Position> {
     return new Promise<Position>((resolve, reject) => {
       this.observable.subscribe((position: Position) => {
-        if (gameMap[position.row][position.column] !== CellType.EMPTY) {
+        if (gameMap[position.row][position.column] !== Cell.EMPTY) {
           reject(new Error('Not empty cell position'));
         } else {
           resolve(position);

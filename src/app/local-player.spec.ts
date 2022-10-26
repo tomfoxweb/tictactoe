@@ -1,5 +1,5 @@
 import { of } from 'rxjs';
-import { CellType, Column, GameMap, Position, Row } from './game-map';
+import { Cell, Column, GameMap, Position, Row } from './game-map';
 import { LocalPlayer } from './local-player';
 import { PlayerFigure } from './player';
 
@@ -26,9 +26,9 @@ describe('Local player', () => {
     const observable = of<Position>(expectedPosition);
     const localPlayer = new LocalPlayer(playerFigure, observable);
     const gameMap: GameMap = [
-      [CellType.EMPTY, CellType.EMPTY, CellType.EMPTY],
-      [CellType.EMPTY, CellType.EMPTY, CellType.EMPTY],
-      [CellType.EMPTY, CellType.EMPTY, CellType.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ];
     const actualPosition = await localPlayer.selectPosition(gameMap);
     expect(actualPosition).toEqual(expectedPosition);
@@ -42,9 +42,9 @@ describe('Local player', () => {
     const observable = of<Position>(expectedPosition);
     const localPlayer = new LocalPlayer(playerFigure, observable);
     const gameMap: GameMap = [
-      [CellType.EMPTY, CellType.X, CellType.EMPTY],
-      [CellType.EMPTY, CellType.X, CellType.O],
-      [CellType.O, CellType.EMPTY, CellType.EMPTY],
+      [Cell.EMPTY, Cell.X, Cell.EMPTY],
+      [Cell.EMPTY, Cell.X, Cell.O],
+      [Cell.O, Cell.EMPTY, Cell.EMPTY],
     ];
     await expectAsync(localPlayer.selectPosition(gameMap)).toBeRejected();
   });
@@ -57,9 +57,9 @@ describe('Local player', () => {
     const observable = of<Position>(expectedPosition);
     const localPlayer = new LocalPlayer(playerFigure, observable);
     const gameMap: GameMap = [
-      [CellType.EMPTY, CellType.EMPTY, CellType.O],
-      [CellType.EMPTY, CellType.X, CellType.X],
-      [CellType.O, CellType.EMPTY, CellType.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.O],
+      [Cell.EMPTY, Cell.X, Cell.X],
+      [Cell.O, Cell.EMPTY, Cell.EMPTY],
     ];
     await expectAsync(localPlayer.selectPosition(gameMap)).toBeRejected();
   });
@@ -72,9 +72,9 @@ describe('Local player', () => {
     const observable = of<Position>(expectedPosition);
     const localPlayer = new LocalPlayer(playerFigure, observable);
     const gameMap: GameMap = [
-      [CellType.EMPTY, CellType.EMPTY, CellType.O],
-      [CellType.X, CellType.O, CellType.X],
-      [CellType.O, CellType.X, CellType.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.O],
+      [Cell.X, Cell.O, Cell.X],
+      [Cell.O, Cell.X, Cell.EMPTY],
     ];
     await expectAsync(localPlayer.selectPosition(gameMap)).toBeRejected();
   });
@@ -87,9 +87,9 @@ describe('Local player', () => {
     const observable = of<Position>(expectedPosition);
     const localPlayer = new LocalPlayer(playerFigure, observable);
     const gameMap: GameMap = [
-      [CellType.EMPTY, CellType.EMPTY, CellType.O],
-      [CellType.X, CellType.O, CellType.EMPTY],
-      [CellType.X, CellType.O, CellType.X],
+      [Cell.EMPTY, Cell.EMPTY, Cell.O],
+      [Cell.X, Cell.O, Cell.EMPTY],
+      [Cell.X, Cell.O, Cell.X],
     ];
     await expectAsync(localPlayer.selectPosition(gameMap)).toBeRejected();
   });
@@ -102,9 +102,9 @@ describe('Local player', () => {
     const observable = of<Position>(expectedPosition);
     const localPlayer = new LocalPlayer(playerFigure, observable);
     const gameMap: GameMap = [
-      [CellType.O, CellType.X, CellType.X],
-      [CellType.X, CellType.O, CellType.X],
-      [CellType.X, CellType.O, CellType.O],
+      [Cell.O, Cell.X, Cell.X],
+      [Cell.X, Cell.O, Cell.X],
+      [Cell.X, Cell.O, Cell.O],
     ];
     await expectAsync(localPlayer.selectPosition(gameMap)).toBeRejected();
   });
@@ -117,9 +117,9 @@ describe('Local player', () => {
     const observable = of<Position>(expectedPosition);
     const localPlayer = new LocalPlayer(playerFigure, observable);
     const gameMap: GameMap = [
-      [CellType.X, CellType.O, CellType.O],
-      [CellType.X, CellType.X, CellType.X],
-      [CellType.O, CellType.X, CellType.O],
+      [Cell.X, Cell.O, Cell.O],
+      [Cell.X, Cell.X, Cell.X],
+      [Cell.O, Cell.X, Cell.O],
     ];
     await expectAsync(localPlayer.selectPosition(gameMap)).toBeRejected();
   });
