@@ -1,6 +1,11 @@
 import { Cell, Column, COLUMN_COUNT, Row, ROW_COUNT } from './game-map';
 import { Viewable } from './viewable';
 
+export const enum GameStatus {
+  awaitFirstPlayer,
+  awaitSecondPlayer,
+}
+
 export class Referee {
   private view: Viewable;
 
@@ -15,5 +20,9 @@ export class Referee {
         this.view.showCell(row as Row, column as Column, cell);
       }
     }
+  }
+
+  getStatus(): GameStatus {
+    return GameStatus.awaitFirstPlayer;
   }
 }

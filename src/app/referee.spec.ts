@@ -1,6 +1,6 @@
-import { Cell, Column, GameMap, Position, Row } from './game-map';
-import { Player, PlayerFigure } from './player';
-import { Referee } from './referee';
+import { Cell, Column, Row } from './game-map';
+import { Player } from './player';
+import { GameStatus, Referee } from './referee';
 import { Viewable } from './viewable';
 
 class TestView implements Viewable {
@@ -11,10 +11,11 @@ class TestView implements Viewable {
 
 describe('Referee newGame', () => {
   let spyViewShowCell: any;
+  let referee: Referee;
 
   beforeEach(() => {
     const view = new TestView();
-    const referee = new Referee(view);
+    referee = new Referee(view);
     spyViewShowCell = spyOn(view, 'showCell');
     referee.newGame();
   });
@@ -25,5 +26,10 @@ describe('Referee newGame', () => {
         expect(spyViewShowCell).toHaveBeenCalledWith(row, column, cell);
       }
     }
+  });
+
+  it('should set game status to await first player', () => {
+    const status = referee.getStatus();
+    expect(status).toBe(GameStatus.awaitFirstPlayer);
   });
 });
