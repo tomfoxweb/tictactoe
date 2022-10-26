@@ -3,9 +3,11 @@ import {
   Column,
   COLUMN_COUNT,
   GameMap,
+  Position,
   Row,
   ROW_COUNT,
 } from './game-map';
+import { PlayerFigure } from './player';
 import { Viewable } from './viewable';
 
 export const enum GameStatus {
@@ -16,6 +18,7 @@ export const enum GameStatus {
 export class Referee {
   private view: Viewable;
   private gameMap: GameMap;
+  private gameStatus: GameStatus;
 
   constructor(view: Viewable) {
     this.view = view;
@@ -24,6 +27,7 @@ export class Referee {
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ];
+    this.gameStatus = GameStatus.awaitFirstPlayer;
   }
 
   newGame(
@@ -34,6 +38,7 @@ export class Referee {
     ]
   ): void {
     this.gameMap = gameMap;
+    this.gameStatus = GameStatus.awaitFirstPlayer;
     for (let row = 0; row < ROW_COUNT; row++) {
       for (let column = 0; column < COLUMN_COUNT; column++) {
         const cell = this.gameMap[row][column];
@@ -43,6 +48,11 @@ export class Referee {
   }
 
   getStatus(): GameStatus {
-    return GameStatus.awaitFirstPlayer;
+    return this.gameStatus;
+  }
+
+  acceptPosition(playerFigure: PlayerFigure, position: Position): void {
+    this.view.showCell(position.row, position.column, Cell.X);
+    this.gameStatus = GameStatus.awaitSecondPlayer;
   }
 }

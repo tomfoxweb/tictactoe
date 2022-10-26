@@ -1,5 +1,5 @@
-import { Cell, Column, GameMap, Row } from './game-map';
-import { Player } from './player';
+import { Cell, Column, GameMap, Position, Row } from './game-map';
+import { Player, PlayerFigure } from './player';
 import { GameStatus, Referee } from './referee';
 import { Viewable } from './viewable';
 
@@ -61,5 +61,25 @@ describe('Referee newGame with map', () => {
   it('should set game status to await first player', () => {
     const status = referee.getStatus();
     expect(status).toBe(GameStatus.awaitFirstPlayer);
+  });
+});
+
+describe('Referee acceptPosition', () => {
+  let spyViewShowCell: any;
+  let referee: Referee;
+
+  beforeEach(() => {
+    const view = new TestView();
+    referee = new Referee(view);
+    spyViewShowCell = spyOn(view, 'showCell');
+  });
+
+  it('should call showCell and switch game status', () => {
+    referee.newGame();
+    const position: Position = { row: 1, column: 1 };
+    referee.acceptPosition(PlayerFigure.X, position);
+    expect(spyViewShowCell).toHaveBeenCalledWith(1, 1, Cell.X);
+    const expectedStatus = GameStatus.awaitSecondPlayer;
+    expect(referee.getStatus()).toBe(expectedStatus);
   });
 });
