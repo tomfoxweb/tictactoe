@@ -75,4 +75,15 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     accepted: false,
     status: GameStatus.incorrectPlayerOPosition,
   },
+  {
+    title: 'should accept position for X after multiple turns',
+    gameMap: [
+      [Cell.X, Cell.O, Cell.EMPTY],
+      [Cell.EMPTY, Cell.X, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.O],
+    ],
+    args: { playerFigure: PlayerFigure.X, position: { row: 1, column: 2 } },
+    accepted: true,
+    status: GameStatus.awaitSecondPlayer,
+  },
 ];
