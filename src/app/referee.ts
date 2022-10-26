@@ -66,8 +66,13 @@ export class Referee {
   }
 
   acceptPosition(playerFigure: PlayerFigure, position: Position): boolean {
-    this.view.showCell(position.row, position.column, Cell.X);
-    this.gameStatus = GameStatus.awaitSecondPlayer;
+    const cell: Cell = playerFigure === PlayerFigure.X ? Cell.X : Cell.O;
+    this.view.showCell(position.row, position.column, cell);
+    if (playerFigure === PlayerFigure.X) {
+      this.gameStatus = GameStatus.awaitSecondPlayer;
+    } else {
+      this.gameStatus = GameStatus.awaitFirstPlayer;
+    }
     return true;
   }
 }

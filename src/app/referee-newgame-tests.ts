@@ -59,7 +59,6 @@ export const refereeNewGameTests: RefereeNewGameTest[] = [
     status: GameStatus.incorrectMap,
     started: false,
   },
-
   {
     title: 'should not start if O - X === 3',
     gameMap: [
