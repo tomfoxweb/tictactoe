@@ -14,6 +14,8 @@ export const enum GameStatus {
   awaitFirstPlayer,
   awaitSecondPlayer,
   incorrectMap,
+  incorrectPlayerXPosition,
+  incorrectPlayerOPosition,
 }
 
 export class Referee {
@@ -66,6 +68,14 @@ export class Referee {
   }
 
   acceptPosition(playerFigure: PlayerFigure, position: Position): boolean {
+    if (this.gameMap[position.row][position.column] !== Cell.EMPTY) {
+      if (playerFigure === PlayerFigure.X) {
+        this.gameStatus = GameStatus.incorrectPlayerXPosition;
+      } else {
+        this.gameStatus = GameStatus.incorrectPlayerOPosition;
+      }
+      return false;
+    }
     const cell: Cell = playerFigure === PlayerFigure.X ? Cell.X : Cell.O;
     this.view.showCell(position.row, position.column, cell);
     if (playerFigure === PlayerFigure.X) {
