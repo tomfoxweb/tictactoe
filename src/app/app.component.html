@@ -1,9 +1,16 @@
 <div class="content-container">
   <h1 class="game-title">Tic Tac Toe</h1>
   <div class="buttons-container">
-    <button>New Game</button>
+    <button class="button-new-game" (click)="newGame()">New Game</button>
   </div>
   <div class="cells-container">
-    <button class="button-cell" *ngFor="let info of cells"></button>
+    <button
+      class="button-cell"
+      *ngFor="let info of viewCells"
+      [attr.data-row]="info.row"
+      [attr.data-column]="info.column"
+    >
+      {{ info.cell }}
+    </button>
   </div>
 </div>
