@@ -1,5 +1,5 @@
-import { Observable } from 'rxjs';
-import { Position } from './game-map';
+import { animationFrameScheduler } from 'rxjs';
+import { GameMap, Position } from './game-map';
 import { Player, PlayerFigure } from './player';
 import { GameStatus, Referee } from './referee';
 import { Viewable } from './viewable';
@@ -7,44 +7,64 @@ import { Viewable } from './viewable';
 export class Game {
   private view: Viewable;
   private referee: Referee;
-  private localPlayerObservable: Observable<Event>;
+  private playerX: Player | undefined;
+  private playerO: Player | undefined;
+  private activePlayer: Player | undefined;
+  private activePlayerFigure: PlayerFigure;
 
-  constructor(view: Viewable, observable: Observable<Event>) {
+  constructor(view: Viewable) {
     this.view = view;
     this.referee = new Referee(this.view);
-    this.localPlayerObservable = observable;
+    this.activePlayerFigure = PlayerFigure.X;
   }
 
   async start(playerX: Player, playerO: Player) {
+    this.playerX = playerX;
+    this.playerO = playerO;
+    this.playerX.setFigure(PlayerFigure.X);
+    this.playerO.setFigure(PlayerFigure.O);
+    this.activePlayer = this.playerX;
+    this.activePlayerFigure = PlayerFigure.X;
     this.referee.newGame();
-    playerX.setFigure(PlayerFigure.X);
-    playerO.setFigure(PlayerFigure.O);
-    let figure: PlayerFigure = PlayerFigure.X;
     while (true) {
       const gameMap = this.referee.getMap();
       let position: Position;
       try {
-        if (figure === PlayerFigure.X) {
-          position = await playerX.selectPosition(gameMap);
-        } else {
-          position = await playerO.selectPosition(gameMap);
-        }
+        position = await this.activePlayer.selectPosition(gameMap);
       } catch (e) {
         continue;
       }
-
-      const accepted = this.referee.acceptPosition(figure, position);
-      if (!accepted) {
+      if (!this.referee.acceptPosition(this.activePlayerFigure, position)) {
         continue;
       }
-      const status = this.referee.getStatus();
-      if (status === GameStatus.awaitPlayerX) {
-        figure = PlayerFigure.X;
-      } else if (status === GameStatus.awaitPlayerO) {
-        figure = PlayerFigure.O;
-      } else {
+      const gameStatus = this.referee.getStatus();
+      if (this.isGameOver(gameStatus)) {
         break;
       }
+      this.switchActivePlayer(gameStatus);
     }
+  }
+
+  private switchActivePlayer(gameStatus: GameStatus): void {
+    if (gameStatus === GameStatus.awaitPlayerX) {
+      this.activePlayer = this.playerX;
+      this.activePlayerFigure = PlayerFigure.X;
+    } else if (gameStatus === GameStatus.awaitPlayerO) {
+      this.activePlayer = this.playerO;
+      this.activePlayerFigure = PlayerFigure.O;
+    }
+  }
+
+  private isGameOver(gameStatus: GameStatus) {
+    if (gameStatus === GameStatus.winPlayerX) {
+      return true;
+    }
+    if (gameStatus === GameStatus.winPlayerO) {
+      return true;
+    }
+    if (gameStatus === GameStatus.draw) {
+      return true;
+    }
+    return false;
   }
 }

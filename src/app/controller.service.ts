@@ -16,7 +16,7 @@ export class ControllerService {
   constructor() {}
 
   setViewAndObservable(view: Viewable, observable: Observable<Event>) {
-    this.game = new Game(view, observable);
+    this.game = new Game(view);
     this.playerX = new LocalPlayer(PlayerFigure.X, observable);
     this.playerO = new LocalPlayer(PlayerFigure.O, observable);
   }
