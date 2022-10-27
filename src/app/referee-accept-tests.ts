@@ -262,4 +262,15 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     accepted: true,
     status: GameStatus.secondPlayerWin,
   },
+  {
+    title: 'should accept position for O win up diagonal',
+    gameMap: [
+      [Cell.X, Cell.EMPTY, Cell.O],
+      [Cell.X, Cell.O, Cell.X],
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+    ],
+    args: { playerFigure: PlayerFigure.O, position: { row: 2, column: 0 } },
+    accepted: true,
+    status: GameStatus.secondPlayerWin,
+  },
 ];
