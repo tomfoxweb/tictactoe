@@ -119,4 +119,15 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     accepted: true,
     status: GameStatus.firstPlayerWin,
   },
+  {
+    title: 'should accept position for X win horizontal row 2',
+    gameMap: [
+      [Cell.O, Cell.EMPTY, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.O],
+      [Cell.EMPTY, Cell.X, Cell.X],
+    ],
+    args: { playerFigure: PlayerFigure.X, position: { row: 2, column: 0 } },
+    accepted: true,
+    status: GameStatus.firstPlayerWin,
+  },
 ];
