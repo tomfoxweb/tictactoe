@@ -16,6 +16,8 @@ export const enum GameStatus {
   incorrectMap,
   incorrectPlayerXPosition,
   incorrectPlayerOPosition,
+  firstPlayerWin,
+  secondPlayerWin,
 }
 
 export class Referee {
@@ -77,12 +79,60 @@ export class Referee {
       return false;
     }
     const cell: Cell = playerFigure === PlayerFigure.X ? Cell.X : Cell.O;
+    this.gameMap[position.row][position.column] = cell;
     this.view.showCell(position.row, position.column, cell);
-    if (playerFigure === PlayerFigure.X) {
+    const matched =
+      this.matchedHorizontalLine(position.row, cell) ||
+      this.matchedVerticalLine(position.column, cell) ||
+      this.matchedDownDiagonalLine(cell) ||
+      this.matchedUpDiagonalLine(cell);
+    if (matched) {
+      if (playerFigure === PlayerFigure.X) {
+        this.gameStatus = GameStatus.firstPlayerWin;
+      } else {
+        this.gameStatus = GameStatus.secondPlayerWin;
+      }
+    } else if (playerFigure === PlayerFigure.X) {
       this.gameStatus = GameStatus.awaitSecondPlayer;
     } else {
       this.gameStatus = GameStatus.awaitFirstPlayer;
     }
     return true;
+  }
+
+  private matchedHorizontalLine(row: Row, matchedCell: Cell): boolean {
+    const line: Cell[] = [
+      this.gameMap[row][0],
+      this.gameMap[row][1],
+      this.gameMap[row][2],
+    ];
+    return line.every((cell) => cell === matchedCell);
+  }
+
+  private matchedVerticalLine(column: Column, matchedCell: Cell): boolean {
+    const line: Cell[] = [
+      this.gameMap[0][column],
+      this.gameMap[1][column],
+      this.gameMap[2][column],
+    ];
+    return line.every((cell) => cell === matchedCell);
+  }
+
+  private matchedDownDiagonalLine(matchedCell: Cell): boolean {
+    const line: Cell[] = [
+      this.gameMap[0][0],
+      this.gameMap[1][1],
+      this.gameMap[2][2],
+    ];
+    return line.every((cell) => cell === matchedCell);
+  }
+
+  private matchedUpDiagonalLine(matchedCell: Cell): boolean {
+    const line: Cell[] = [
+      this.gameMap[2][0],
+      this.gameMap[1][1],
+      this.gameMap[0][2],
+    ];
+    return line.every((cell) => cell === matchedCell);
   }
 }
