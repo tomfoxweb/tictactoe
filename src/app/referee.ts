@@ -45,18 +45,9 @@ export class Referee {
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ]
   ): boolean {
-    const flatMap = gameMap.flat();
-    const countX = flatMap.reduce((c, x) => (x === Cell.X ? c + 1 : c), 0);
-    const countO = flatMap.reduce((c, x) => (x === Cell.O ? c + 1 : c), 0);
-    const countDiff = countX - countO;
-    if (countDiff < 0 || countDiff > 1) {
-      this.gameStatus = GameStatus.incorrectMap;
+    this.gameStatus = this.calcStatusOnNewGame(gameMap);
+    if (this.gameStatus === GameStatus.incorrectMap) {
       return false;
-    }
-    if (countDiff === 0) {
-      this.gameStatus = GameStatus.awaitPlayerX;
-    } else {
-      this.gameStatus = GameStatus.awaitPlayerO;
     }
     this.gameMap = gameMap;
     this.emptyCellsCount = 0;
@@ -72,6 +63,21 @@ export class Referee {
     return true;
   }
 
+  private calcStatusOnNewGame(gameMap: GameMap): GameStatus {
+    const flatMap = gameMap.flat();
+    const countX = flatMap.reduce((c, x) => (x === Cell.X ? c + 1 : c), 0);
+    const countO = flatMap.reduce((c, x) => (x === Cell.O ? c + 1 : c), 0);
+    const countDiff = countX - countO;
+    if (countDiff < 0 || countDiff > 1) {
+      return GameStatus.incorrectMap;
+    }
+    if (countDiff === 0) {
+      return GameStatus.awaitPlayerX;
+    } else {
+      return GameStatus.awaitPlayerO;
+    }
+  }
+
   getStatus(): GameStatus {
     return this.gameStatus;
   }
@@ -81,20 +87,16 @@ export class Referee {
   }
 
   acceptPosition(playerFigure: PlayerFigure, position: Position): boolean {
-    if (this.gameMap[position.row][position.column] !== Cell.EMPTY) {
+    const { row, column } = position;
+    if (this.gameMap[row][column] !== Cell.EMPTY) {
       this.setIncorrectPositionStatus(playerFigure);
       return false;
     }
     const cell: Cell = playerFigure === PlayerFigure.X ? Cell.X : Cell.O;
-    this.gameMap[position.row][position.column] = cell;
+    this.gameMap[row][column] = cell;
     this.emptyCellsCount--;
-    this.view.showCell(position.row, position.column, cell);
-    const matched =
-      this.matchedHorizontalLine(position.row, cell) ||
-      this.matchedVerticalLine(position.column, cell) ||
-      this.matchedDownDiagonalLine(cell) ||
-      this.matchedUpDiagonalLine(cell);
-    if (matched) {
+    this.view.showCell(row, column, cell);
+    if (this.matchedSomeLine(row, column, cell)) {
       this.setWinStatus(playerFigure);
       this.view.showWin(playerFigure);
     } else if (this.emptyCellsCount <= 0) {
@@ -128,6 +130,19 @@ export class Referee {
     } else {
       this.gameStatus = GameStatus.awaitPlayerX;
     }
+  }
+
+  private matchedSomeLine(
+    row: Row,
+    column: Column,
+    matchedCell: Cell
+  ): boolean {
+    return (
+      this.matchedHorizontalLine(row, matchedCell) ||
+      this.matchedVerticalLine(column, matchedCell) ||
+      this.matchedDownDiagonalLine(matchedCell) ||
+      this.matchedUpDiagonalLine(matchedCell)
+    );
   }
 
   private matchedHorizontalLine(row: Row, matchedCell: Cell): boolean {

@@ -1,9 +1,4 @@
-import {
-  AfterContentInit,
-  AfterViewInit,
-  Component,
-  OnInit,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { fromEvent } from 'rxjs';
 import { ControllerService } from './controller.service';
 import { Row, Column, Cell } from './game-map';
@@ -31,22 +26,7 @@ export class AppComponent implements OnInit, AfterViewInit, Viewable {
   constructor(
     private controller: ControllerService,
     private imageProvider: ImageProviderService
-  ) {
-    this.viewCells = [];
-    const src = this.imageProvider.getImage(Cell.EMPTY);
-    for (let row = 0; row < 3; row++) {
-      for (let col = 0; col < 3; col++) {
-        const x: ViewCell = {
-          row: row as Row,
-          column: col as Column,
-          cell: Cell.EMPTY,
-          src: src,
-          alt: 'empty',
-        };
-        this.viewCells.push(x);
-      }
-    }
-  }
+  ) {}
 
   ngAfterViewInit(): void {
     const buttonsCell = document.querySelectorAll('.button-cell');
@@ -55,7 +35,22 @@ export class AppComponent implements OnInit, AfterViewInit, Viewable {
     this.newGame();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.viewCells = [];
+    const emptyInfo = this.imageProvider.getImageInfo(Cell.EMPTY);
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        const x: ViewCell = {
+          row: row as Row,
+          column: col as Column,
+          cell: Cell.EMPTY,
+          src: emptyInfo.src,
+          alt: emptyInfo.alt,
+        };
+        this.viewCells.push(x);
+      }
+    }
+  }
 
   newGame() {
     this.controller.newGame();
@@ -63,15 +58,10 @@ export class AppComponent implements OnInit, AfterViewInit, Viewable {
 
   showCell(row: Row, column: Column, cell: Cell): void {
     const index = row * 3 + column;
+    const imageInfo = this.imageProvider.getImageInfo(cell);
     this.viewCells[index].cell = cell;
-    this.viewCells[index].src = this.imageProvider.getImage(cell);
-    let alt = 'empty';
-    if (cell === Cell.X) {
-      alt = 'X';
-    } else if (cell === Cell.O) {
-      alt = 'O';
-    }
-    this.viewCells[index].alt = alt;
+    this.viewCells[index].src = imageInfo.src;
+    this.viewCells[index].alt = imageInfo.alt;
   }
 
   showWin(playerFigure: PlayerFigure): void {
