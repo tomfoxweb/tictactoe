@@ -18,12 +18,14 @@ export const enum GameStatus {
   incorrectPlayerOPosition,
   firstPlayerWin,
   secondPlayerWin,
+  draw,
 }
 
 export class Referee {
   private view: Viewable;
   private gameMap: GameMap;
   private gameStatus: GameStatus;
+  private emptyCellsCount: number;
 
   constructor(view: Viewable) {
     this.view = view;
@@ -33,6 +35,7 @@ export class Referee {
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ];
     this.gameStatus = GameStatus.awaitFirstPlayer;
+    this.emptyCellsCount = 9;
   }
 
   newGame(
@@ -56,9 +59,13 @@ export class Referee {
       this.gameStatus = GameStatus.awaitSecondPlayer;
     }
     this.gameMap = gameMap;
+    this.emptyCellsCount = 0;
     for (let row = 0; row < ROW_COUNT; row++) {
       for (let column = 0; column < COLUMN_COUNT; column++) {
         const cell = this.gameMap[row][column];
+        if (cell === Cell.EMPTY) {
+          this.emptyCellsCount++;
+        }
         this.view.showCell(row as Row, column as Column, cell);
       }
     }
@@ -80,6 +87,7 @@ export class Referee {
     }
     const cell: Cell = playerFigure === PlayerFigure.X ? Cell.X : Cell.O;
     this.gameMap[position.row][position.column] = cell;
+    this.emptyCellsCount--;
     this.view.showCell(position.row, position.column, cell);
     const matched =
       this.matchedHorizontalLine(position.row, cell) ||
@@ -92,6 +100,8 @@ export class Referee {
       } else {
         this.gameStatus = GameStatus.secondPlayerWin;
       }
+    } else if (this.emptyCellsCount <= 0) {
+      this.gameStatus = GameStatus.draw;
     } else if (playerFigure === PlayerFigure.X) {
       this.gameStatus = GameStatus.awaitSecondPlayer;
     } else {
