@@ -1,6 +1,6 @@
-import { Cell, Column, GameMap, Position, Row } from './game-map';
-import { Player, PlayerFigure } from './player';
-import { GameStatus, Referee } from './referee';
+import { Cell, Column, Row } from './game-map';
+import { Player } from './player';
+import { Referee } from './referee';
 import { refereeAcceptTests } from './referee-accept-tests';
 import { refereeNewGameTests } from './referee-newgame-tests';
 import { Viewable } from './viewable';

@@ -17,7 +17,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     args: { playerFigure: PlayerFigure.X, position: { row: 1, column: 1 } },
     accepted: true,
     showPosition: { row: 1, column: 1, cell: Cell.X },
-    status: GameStatus.awaitSecondPlayer,
+    status: GameStatus.awaitPlayerO,
   },
   {
     title: 'should call showCell for cell o',
@@ -29,7 +29,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     args: { playerFigure: PlayerFigure.O, position: { row: 1, column: 1 } },
     accepted: true,
     showPosition: { row: 1, column: 1, cell: Cell.O },
-    status: GameStatus.awaitFirstPlayer,
+    status: GameStatus.awaitPlayerX,
   },
   {
     title: 'should not accept position for O on same place as X',
@@ -40,7 +40,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 1, column: 0 } },
     accepted: false,
-    status: GameStatus.incorrectPlayerOPosition,
+    status: GameStatus.incorrectPositionPlayerO,
   },
   {
     title: 'should not accept position for X on same place as O',
@@ -51,7 +51,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.X, position: { row: 2, column: 1 } },
     accepted: false,
-    status: GameStatus.incorrectPlayerXPosition,
+    status: GameStatus.incorrectPositionPlayerX,
   },
   {
     title: 'should not accept position for X on same place as X',
@@ -62,7 +62,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.X, position: { row: 2, column: 2 } },
     accepted: false,
-    status: GameStatus.incorrectPlayerXPosition,
+    status: GameStatus.incorrectPositionPlayerX,
   },
   {
     title: 'should not accept position for O on same place as O',
@@ -73,7 +73,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 1, column: 0 } },
     accepted: false,
-    status: GameStatus.incorrectPlayerOPosition,
+    status: GameStatus.incorrectPositionPlayerO,
   },
   {
     title: 'should accept position for X after multiple turns',
@@ -84,7 +84,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.X, position: { row: 1, column: 2 } },
     accepted: true,
-    status: GameStatus.awaitSecondPlayer,
+    status: GameStatus.awaitPlayerO,
   },
   {
     title: 'should accept position for O after multiple turns',
@@ -95,7 +95,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 2, column: 2 } },
     accepted: true,
-    status: GameStatus.awaitFirstPlayer,
+    status: GameStatus.awaitPlayerX,
   },
   {
     title: 'should accept position for X win horizontal row 1',
@@ -106,7 +106,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.X, position: { row: 1, column: 2 } },
     accepted: true,
-    status: GameStatus.firstPlayerWin,
+    status: GameStatus.winPlayerX,
   },
   {
     title: 'should accept position for X win horizontal row 0',
@@ -117,7 +117,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.X, position: { row: 0, column: 1 } },
     accepted: true,
-    status: GameStatus.firstPlayerWin,
+    status: GameStatus.winPlayerX,
   },
   {
     title: 'should accept position for X win horizontal row 2',
@@ -128,7 +128,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.X, position: { row: 2, column: 0 } },
     accepted: true,
-    status: GameStatus.firstPlayerWin,
+    status: GameStatus.winPlayerX,
   },
   {
     title: 'should accept position for X win vertical column 0',
@@ -139,7 +139,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.X, position: { row: 0, column: 0 } },
     accepted: true,
-    status: GameStatus.firstPlayerWin,
+    status: GameStatus.winPlayerX,
   },
   {
     title: 'should accept position for X win vertical column 1',
@@ -150,7 +150,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.X, position: { row: 1, column: 1 } },
     accepted: true,
-    status: GameStatus.firstPlayerWin,
+    status: GameStatus.winPlayerX,
   },
   {
     title: 'should accept position for X win vertical column 2',
@@ -161,7 +161,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.X, position: { row: 2, column: 2 } },
     accepted: true,
-    status: GameStatus.firstPlayerWin,
+    status: GameStatus.winPlayerX,
   },
   {
     title: 'should accept position for X win down diagonal',
@@ -172,7 +172,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.X, position: { row: 2, column: 2 } },
     accepted: true,
-    status: GameStatus.firstPlayerWin,
+    status: GameStatus.winPlayerX,
   },
   {
     title: 'should accept position for X win up diagonal',
@@ -183,7 +183,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.X, position: { row: 1, column: 1 } },
     accepted: true,
-    status: GameStatus.firstPlayerWin,
+    status: GameStatus.winPlayerX,
   },
   {
     title: 'should accept position for O win row 0',
@@ -194,7 +194,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 0, column: 2 } },
     accepted: true,
-    status: GameStatus.secondPlayerWin,
+    status: GameStatus.winPlayerO,
   },
   {
     title: 'should accept position for O win row 1',
@@ -205,7 +205,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 1, column: 1 } },
     accepted: true,
-    status: GameStatus.secondPlayerWin,
+    status: GameStatus.winPlayerO,
   },
   {
     title: 'should accept position for O win row 2',
@@ -216,7 +216,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 2, column: 0 } },
     accepted: true,
-    status: GameStatus.secondPlayerWin,
+    status: GameStatus.winPlayerO,
   },
   {
     title: 'should accept position for O win column 0',
@@ -227,7 +227,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 1, column: 0 } },
     accepted: true,
-    status: GameStatus.secondPlayerWin,
+    status: GameStatus.winPlayerO,
   },
   {
     title: 'should accept position for O win column 1',
@@ -238,7 +238,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 2, column: 1 } },
     accepted: true,
-    status: GameStatus.secondPlayerWin,
+    status: GameStatus.winPlayerO,
   },
   {
     title: 'should accept position for O win column 2',
@@ -249,7 +249,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 0, column: 2 } },
     accepted: true,
-    status: GameStatus.secondPlayerWin,
+    status: GameStatus.winPlayerO,
   },
   {
     title: 'should accept position for O win down diagonal',
@@ -260,7 +260,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 0, column: 0 } },
     accepted: true,
-    status: GameStatus.secondPlayerWin,
+    status: GameStatus.winPlayerO,
   },
   {
     title: 'should accept position for O win up diagonal',
@@ -271,7 +271,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 2, column: 0 } },
     accepted: true,
-    status: GameStatus.secondPlayerWin,
+    status: GameStatus.winPlayerO,
   },
   {
     title: 'should accept position for X draw',

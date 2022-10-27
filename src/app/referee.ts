@@ -11,13 +11,13 @@ import { PlayerFigure } from './player';
 import { Viewable } from './viewable';
 
 export const enum GameStatus {
-  awaitFirstPlayer,
-  awaitSecondPlayer,
+  awaitPlayerX,
+  awaitPlayerO,
   incorrectMap,
-  incorrectPlayerXPosition,
-  incorrectPlayerOPosition,
-  firstPlayerWin,
-  secondPlayerWin,
+  incorrectPositionPlayerX,
+  incorrectPositionPlayerO,
+  winPlayerX,
+  winPlayerO,
   draw,
 }
 
@@ -34,7 +34,7 @@ export class Referee {
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ];
-    this.gameStatus = GameStatus.awaitFirstPlayer;
+    this.gameStatus = GameStatus.awaitPlayerX;
     this.emptyCellsCount = 9;
   }
 
@@ -54,9 +54,9 @@ export class Referee {
       return false;
     }
     if (countDiff === 0) {
-      this.gameStatus = GameStatus.awaitFirstPlayer;
+      this.gameStatus = GameStatus.awaitPlayerX;
     } else {
-      this.gameStatus = GameStatus.awaitSecondPlayer;
+      this.gameStatus = GameStatus.awaitPlayerO;
     }
     this.gameMap = gameMap;
     this.emptyCellsCount = 0;
@@ -78,11 +78,7 @@ export class Referee {
 
   acceptPosition(playerFigure: PlayerFigure, position: Position): boolean {
     if (this.gameMap[position.row][position.column] !== Cell.EMPTY) {
-      if (playerFigure === PlayerFigure.X) {
-        this.gameStatus = GameStatus.incorrectPlayerXPosition;
-      } else {
-        this.gameStatus = GameStatus.incorrectPlayerOPosition;
-      }
+      this.setIncorrectPositionStatus(playerFigure);
       return false;
     }
     const cell: Cell = playerFigure === PlayerFigure.X ? Cell.X : Cell.O;
@@ -95,19 +91,37 @@ export class Referee {
       this.matchedDownDiagonalLine(cell) ||
       this.matchedUpDiagonalLine(cell);
     if (matched) {
-      if (playerFigure === PlayerFigure.X) {
-        this.gameStatus = GameStatus.firstPlayerWin;
-      } else {
-        this.gameStatus = GameStatus.secondPlayerWin;
-      }
+      this.setWinStatus(playerFigure);
     } else if (this.emptyCellsCount <= 0) {
       this.gameStatus = GameStatus.draw;
-    } else if (playerFigure === PlayerFigure.X) {
-      this.gameStatus = GameStatus.awaitSecondPlayer;
     } else {
-      this.gameStatus = GameStatus.awaitFirstPlayer;
+      this.setAwaitStatus(playerFigure);
     }
     return true;
+  }
+
+  private setIncorrectPositionStatus(playerFigure: PlayerFigure): void {
+    if (playerFigure === PlayerFigure.X) {
+      this.gameStatus = GameStatus.incorrectPositionPlayerX;
+    } else {
+      this.gameStatus = GameStatus.incorrectPositionPlayerO;
+    }
+  }
+
+  private setWinStatus(playerFigure: PlayerFigure): void {
+    if (playerFigure === PlayerFigure.X) {
+      this.gameStatus = GameStatus.winPlayerX;
+    } else {
+      this.gameStatus = GameStatus.winPlayerO;
+    }
+  }
+
+  private setAwaitStatus(playerFigure: PlayerFigure): void {
+    if (playerFigure === PlayerFigure.X) {
+      this.gameStatus = GameStatus.awaitPlayerO;
+    } else {
+      this.gameStatus = GameStatus.awaitPlayerX;
+    }
   }
 
   private matchedHorizontalLine(row: Row, matchedCell: Cell): boolean {

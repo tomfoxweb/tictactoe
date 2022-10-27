@@ -17,7 +17,7 @@ export const refereeNewGameTests: RefereeNewGameTest[] = [
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ],
     started: true,
-    status: GameStatus.awaitFirstPlayer,
+    status: GameStatus.awaitPlayerX,
   },
   {
     title: 'should start with status await second show all empty but first',
@@ -27,7 +27,7 @@ export const refereeNewGameTests: RefereeNewGameTest[] = [
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ],
     started: true,
-    status: GameStatus.awaitSecondPlayer,
+    status: GameStatus.awaitPlayerO,
   },
   {
     title: 'should not start if one cell O',
