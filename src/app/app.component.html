@@ -9,8 +9,9 @@
       *ngFor="let info of viewCells"
       [attr.data-row]="info.row"
       [attr.data-column]="info.column"
+      [class.empty]="info.cell === 0"
     >
-      {{ info.cell }}
+      <img src="{{ info.src }}" alt="{{ info.alt }}" width="150" height="150" />
     </button>
   </div>
 </div>

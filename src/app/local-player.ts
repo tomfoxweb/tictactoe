@@ -13,7 +13,7 @@ export class LocalPlayer implements Player {
   async selectPosition(gameMap: GameMap): Promise<Position> {
     return new Promise<Position>((resolve, reject) => {
       this.observable.subscribe((event: Event) => {
-        const button = event.target as HTMLElement;
+        const button = event.currentTarget as HTMLElement;
         const row = Number(button.dataset['row']!) as Row;
         const column = Number(button.dataset['column']!) as Column;
         if (gameMap[row][column] !== Cell.EMPTY) {
