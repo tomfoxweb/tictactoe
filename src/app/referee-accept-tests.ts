@@ -219,7 +219,7 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     status: GameStatus.secondPlayerWin,
   },
   {
-    title: 'should accept position for O win row 2',
+    title: 'should accept position for O win column 0',
     gameMap: [
       [Cell.O, Cell.X, Cell.EMPTY],
       [Cell.EMPTY, Cell.X, Cell.X],
@@ -230,13 +230,24 @@ export const refereeAcceptTests: RefereeAcceptTest[] = [
     status: GameStatus.secondPlayerWin,
   },
   {
-    title: 'should accept position for O win row 2',
+    title: 'should accept position for O win column 1',
     gameMap: [
       [Cell.X, Cell.O, Cell.X],
       [Cell.EMPTY, Cell.O, Cell.EMPTY],
       [Cell.X, Cell.EMPTY, Cell.EMPTY],
     ],
     args: { playerFigure: PlayerFigure.O, position: { row: 2, column: 1 } },
+    accepted: true,
+    status: GameStatus.secondPlayerWin,
+  },
+  {
+    title: 'should accept position for O win column 2',
+    gameMap: [
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+      [Cell.X, Cell.X, Cell.O],
+      [Cell.EMPTY, Cell.X, Cell.O],
+    ],
+    args: { playerFigure: PlayerFigure.O, position: { row: 0, column: 2 } },
     accepted: true,
     status: GameStatus.secondPlayerWin,
   },
