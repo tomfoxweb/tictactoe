@@ -31,7 +31,22 @@ export class ImageProviderService {
 
   constructor() {}
 
+  async preloadImages(): Promise<void> {
+    const loadPromises = this.images.map((image) => this.loadImage(image.src));
+    await Promise.all(loadPromises);
+  }
+
   getImageInfo(cell: Cell): ImageInfo {
     return this.images.find((image) => image.cell === cell)!;
+  }
+
+  private loadImage(url: string): Promise<void> {
+    return new Promise<void>((resolve) => {
+      const image = new Image();
+      image.src = url;
+      image.addEventListener('load', () => {
+        resolve();
+      });
+    });
   }
 }

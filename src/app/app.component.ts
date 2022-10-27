@@ -29,10 +29,12 @@ export class AppComponent implements OnInit, AfterViewInit, Viewable {
   ) {}
 
   ngAfterViewInit(): void {
-    const buttonsCell = document.querySelectorAll('.button-cell');
-    const observable = fromEvent(buttonsCell, 'click');
-    this.controller.setViewAndObservable(this, observable);
-    this.newGame();
+    this.imageProvider.preloadImages().then((x) => {
+      const buttonsCell = document.querySelectorAll('.button-cell');
+      const observable = fromEvent(buttonsCell, 'click');
+      this.controller.setViewAndObservable(this, observable);
+      this.newGame();
+    });
   }
 
   ngOnInit(): void {
