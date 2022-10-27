@@ -1,8 +1,8 @@
 import { Cell, Column, Row } from './game-map';
-import { Player } from './player';
+import { Player, PlayerFigure } from './player';
 
 export interface Viewable {
   showCell(row: Row, column: Column, cell: Cell): void;
-  showWin(player: Player): void;
+  showWin(playerFigure: PlayerFigure): void;
   showDraw(): void;
 }

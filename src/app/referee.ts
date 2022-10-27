@@ -76,6 +76,10 @@ export class Referee {
     return this.gameStatus;
   }
 
+  getMap(): Readonly<GameMap> {
+    return this.gameMap;
+  }
+
   acceptPosition(playerFigure: PlayerFigure, position: Position): boolean {
     if (this.gameMap[position.row][position.column] !== Cell.EMPTY) {
       this.setIncorrectPositionStatus(playerFigure);
@@ -92,8 +96,10 @@ export class Referee {
       this.matchedUpDiagonalLine(cell);
     if (matched) {
       this.setWinStatus(playerFigure);
+      this.view.showWin(playerFigure);
     } else if (this.emptyCellsCount <= 0) {
       this.gameStatus = GameStatus.draw;
+      this.view.showDraw();
     } else {
       this.setAwaitStatus(playerFigure);
     }

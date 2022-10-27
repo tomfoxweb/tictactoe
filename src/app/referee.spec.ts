@@ -1,5 +1,5 @@
 import { Cell, Column, Row } from './game-map';
-import { Player } from './player';
+import { Player, PlayerFigure } from './player';
 import { Referee } from './referee';
 import { refereeAcceptTests } from './referee-accept-tests';
 import { refereeNewGameTests } from './referee-newgame-tests';
@@ -7,7 +7,7 @@ import { Viewable } from './viewable';
 
 class TestView implements Viewable {
   showCell(row: Row, column: Column, cell: Cell): void {}
-  showWin(player: Player): void {}
+  showWin(playerFigure: PlayerFigure): void {}
   showDraw(): void {}
 }
 
