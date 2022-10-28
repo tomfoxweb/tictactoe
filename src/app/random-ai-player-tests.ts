@@ -21,4 +21,15 @@ export const randomAIPlayerTests: RandomAIPlayerTest[] = [
     returnPosition: true,
     position: { row: 2, column: 1 },
   },
+  {
+    title: 'should select random free position for player O start game',
+    figure: PlayerFigure.O,
+    gameMap: [
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+      [Cell.EMPTY, Cell.X, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+    ],
+    returnPosition: true,
+    position: { row: 0, column: 2 },
+  },
 ];
