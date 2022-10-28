@@ -1,14 +1,14 @@
-import { Cell, GameMap, Position } from './game-map';
-import { PlayerFigure } from './player';
+import { GameMap, Position } from './game-map';
 import { RandomAIPlayer } from './random-ai-player';
+import { randomAIPlayerTests } from './random-ai-player-tests';
 import { Randomizer } from './randomizer';
 
 class TestRandomizer implements Randomizer {
-  public position: Position = { row: 0, column: 0 };
+  public position?: Position;
   public returnPosition = true;
 
   randomEmptyPosition(gameMap: GameMap): Position | null {
-    if (this.returnPosition) {
+    if (this.returnPosition && this.position) {
       return this.position;
     }
     return null;
@@ -16,19 +16,27 @@ class TestRandomizer implements Randomizer {
 }
 
 describe('RandomAIPlayer', () => {
-  it('should select random free position for player X', async () => {
-    const randomizer = new TestRandomizer();
-    const expectedPosition: Position = { row: 2, column: 1 };
-    randomizer.position = expectedPosition;
-    randomizer.returnPosition = true;
-    const player = new RandomAIPlayer(randomizer);
-    player.setFigure(PlayerFigure.X);
-    const gameMap: GameMap = [
-      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
-      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
-      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
-    ];
-    const actualPosition = await player.selectPosition(gameMap);
-    expect(actualPosition).toEqual(expectedPosition);
+  let randomizer: TestRandomizer;
+  let player: RandomAIPlayer;
+  beforeEach(() => {
+    randomizer = new TestRandomizer();
+    player = new RandomAIPlayer(randomizer);
+  });
+
+  const tests = randomAIPlayerTests;
+  tests.forEach((test) => {
+    it(test.title, async () => {
+      randomizer.returnPosition = test.returnPosition;
+      if (test.returnPosition) {
+        randomizer.position = test.position;
+      }
+      player.setFigure(test.figure);
+      const promise = player.selectPosition(test.gameMap);
+      if (test.returnPosition) {
+        await expectAsync(promise).toBeResolvedTo(test.position!);
+      } else {
+        await expectAsync(promise).toBeRejected();
+      }
+    });
   });
 });
