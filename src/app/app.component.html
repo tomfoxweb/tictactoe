@@ -1,7 +1,12 @@
 <div class="content-container">
   <h1 class="game-title">Tic Tac Toe</h1>
   <div class="buttons-container">
-    <button class="button-new-game" (click)="newGame()">New Game</button>
+    <button class="button-new-game" (click)="newGameHumanVsHuman()">
+      Human vs Human
+    </button>
+    <button class="button-new-game" (click)="newGameHumanVsRandomAI()">
+      Human vs Random AI
+    </button>
   </div>
   <div class="cells-container">
     <button

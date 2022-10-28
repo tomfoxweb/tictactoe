@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, AfterViewInit, Viewable {
       const buttonsCell = document.querySelectorAll('.button-cell');
       const observable = fromEvent(buttonsCell, 'click');
       this.controller.setViewAndObservable(this, observable);
-      this.newGame();
+      this.newGameHumanVsHuman();
     });
   }
 
@@ -54,8 +54,12 @@ export class AppComponent implements OnInit, AfterViewInit, Viewable {
     }
   }
 
-  newGame() {
-    this.controller.newGame();
+  newGameHumanVsHuman() {
+    this.controller.newGameHumanVsHuman();
+  }
+
+  newGameHumanVsRandomAI() {
+    this.controller.newGameHumanVsRandomAI();
   }
 
   showCell(row: Row, column: Column, cell: Cell): void {

@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { Game } from './game';
 import { LocalPlayer } from './local-player';
 import { PlayerFigure } from './player';
+import { RandomAIPlayer } from './random-ai-player';
+import { TicTacToeRandomizer } from './TicTacToeRandomizer';
 import { Viewable } from './viewable';
 
 @Injectable({
@@ -10,18 +12,24 @@ import { Viewable } from './viewable';
 })
 export class ControllerService {
   private game: Game | undefined;
-  private playerX: LocalPlayer | undefined;
-  private playerO: LocalPlayer | undefined;
+  private playerHumanX: LocalPlayer | undefined;
+  private playerHumanO: LocalPlayer | undefined;
+  private playerRandomAI: RandomAIPlayer | undefined;
 
   constructor() {}
 
   setViewAndObservable(view: Viewable, observable: Observable<Event>) {
     this.game = new Game(view);
-    this.playerX = new LocalPlayer(PlayerFigure.X, observable);
-    this.playerO = new LocalPlayer(PlayerFigure.O, observable);
+    this.playerHumanX = new LocalPlayer(PlayerFigure.X, observable);
+    this.playerHumanO = new LocalPlayer(PlayerFigure.O, observable);
   }
 
-  newGame() {
-    this.game!.start(this.playerX!, this.playerO!);
+  newGameHumanVsHuman() {
+    this.game!.start(this.playerHumanX!, this.playerHumanO!);
+  }
+
+  newGameHumanVsRandomAI() {
+    this.playerRandomAI = new RandomAIPlayer(new TicTacToeRandomizer());
+    this.game!.start(this.playerHumanX!, this.playerRandomAI);
   }
 }
