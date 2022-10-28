@@ -64,4 +64,14 @@ export const randomAIPlayerTests: RandomAIPlayerTest[] = [
     ],
     returnPosition: false,
   },
+  {
+    title: 'should throw error no empty for player O',
+    figure: PlayerFigure.O,
+    gameMap: [
+      [Cell.X, Cell.X, Cell.O],
+      [Cell.O, Cell.O, Cell.X],
+      [Cell.X, Cell.O, Cell.X],
+    ],
+    returnPosition: false,
+  },
 ];
