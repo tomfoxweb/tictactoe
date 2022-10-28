@@ -54,4 +54,14 @@ export const randomAIPlayerTests: RandomAIPlayerTest[] = [
     returnPosition: true,
     position: { row: 0, column: 1 },
   },
+  {
+    title: 'should throw error no empty for player X',
+    figure: PlayerFigure.X,
+    gameMap: [
+      [Cell.O, Cell.O, Cell.X],
+      [Cell.X, Cell.X, Cell.O],
+      [Cell.O, Cell.X, Cell.X],
+    ],
+    returnPosition: false,
+  },
 ];
