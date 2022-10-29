@@ -7,61 +7,39 @@ export class HardAIPlayer extends NormalAIPlayer {
     super(randomizer);
   }
 
-  override selectPosition(gameMap: GameMap): Promise<Position> {
-    return new Promise<Position>((resolve, reject) => {
-      let position = this.selectBlockPosition(gameMap);
-      if (position) {
-        resolve(position);
-      } else {
-        super
-          .selectPosition(gameMap)
-          .then((pos) => {
-            resolve(pos);
-          })
-          .catch((e) => {
-            reject(e);
-          });
-      }
-    });
+  protected override selectPositionImpl(gameMap: GameMap): Position | null {
+    let position = this.findLastWinPositionOnAnyLine(gameMap);
+    if (position) {
+      return position;
+    }
+    position = this.findBlockOpponentPosition(gameMap);
+    if (position) {
+      return position;
+    }
+    return super.selectPositionImpl(gameMap);
   }
 
-  private selectBlockPosition(gameMap: GameMap): Position | null {
-    let position = this.findLastPlaceOnHorizontalLines(gameMap);
+  private findBlockOpponentPosition(gameMap: GameMap): Position | null {
+    let position = this.findBlockOnHorizontalLines(gameMap);
     if (position) {
       return position;
     }
-    position = this.findBlockPlaceOnVerticalLines(gameMap);
+    position = this.findBlockOnVerticalLines(gameMap);
     if (position) {
       return position;
     }
-    position = this.findLastPlaceOnDiagonalDownLine(gameMap);
+    position = this.findBlockOnDiagonalDownLine(gameMap);
     if (position) {
       return position;
     }
-    position = this.findLastBlockOnDiagonalUpLine(gameMap);
-    if (position) {
-      return position;
-    }
-    position = this.findBlockPlaceOnHorizontalLines(gameMap);
-    if (position) {
-      return position;
-    }
-    position = this.findBlockPlaceOnVerticalLines(gameMap);
-    if (position) {
-      return position;
-    }
-    position = this.findLastBlockOnDiagonalDownLine(gameMap);
-    if (position) {
-      return position;
-    }
-    position = this.findLastBlockOnDiagonalUpLine(gameMap);
+    position = this.findBlockOnDiagonalUpLine(gameMap);
     if (position) {
       return position;
     }
     return null;
   }
 
-  private findBlockPlaceOnHorizontalLines(gameMap: GameMap): Position | null {
+  private findBlockOnHorizontalLines(gameMap: GameMap): Position | null {
     for (let row = 0; row < 3; row++) {
       const position = this.isHorizontalLineHasBlockPlace(gameMap, row);
       if (position) {
@@ -95,7 +73,7 @@ export class HardAIPlayer extends NormalAIPlayer {
     return hasOpponentCell ? blockPosition : null;
   }
 
-  private findBlockPlaceOnVerticalLines(gameMap: GameMap): Position | null {
+  private findBlockOnVerticalLines(gameMap: GameMap): Position | null {
     for (let column = 0; column < 3; column++) {
       const position = this.isVerticalLineHasBlockPlace(gameMap, column);
       if (position) {
@@ -130,7 +108,7 @@ export class HardAIPlayer extends NormalAIPlayer {
     return hasPlayerCell ? lastPosition : null;
   }
 
-  private findLastBlockOnDiagonalDownLine(gameMap: GameMap): Position | null {
+  private findBlockOnDiagonalDownLine(gameMap: GameMap): Position | null {
     let hasPlayerCell = false;
     let selectedLastPosition = false;
     let lastPosition: Position = { row: 0, column: 0 };
@@ -151,7 +129,7 @@ export class HardAIPlayer extends NormalAIPlayer {
     return hasPlayerCell ? lastPosition : null;
   }
 
-  private findLastBlockOnDiagonalUpLine(gameMap: GameMap): Position | null {
+  private findBlockOnDiagonalUpLine(gameMap: GameMap): Position | null {
     let hasPlayerCell = false;
     let selectedLastPosition = false;
     let lastPosition: Position = { row: 2, column: 0 };

@@ -16,6 +16,14 @@ export class NormalAIPlayer implements Player {
     this.opponentCell = figure === PlayerFigure.X ? Cell.O : Cell.X;
   }
 
+  protected getPlayerCell(): Cell | undefined {
+    return this.playerCell;
+  }
+
+  protected getOpponentCell(): Cell | undefined {
+    return this.opponentCell;
+  }
+
   selectPosition(gameMap: GameMap): Promise<Position> {
     return new Promise<Position>((resolve, reject) => {
       let position = this.selectPositionImpl(gameMap);
@@ -27,15 +35,30 @@ export class NormalAIPlayer implements Player {
     });
   }
 
-  protected getPlayerCell(): Cell | undefined {
-    return this.playerCell;
+  protected selectPositionImpl(gameMap: GameMap): Position | null {
+    let position = this.findLastWinPositionOnAnyLine(gameMap);
+    if (position) {
+      return position;
+    }
+    if (this.isEmptyMap(gameMap)) {
+      return { row: 1, column: 1 };
+    }
+    if (this.isCenterEmptyAndOnlyOneCellOnMap(gameMap)) {
+      return { row: 1, column: 1 };
+    }
+    position = this.findRandomCorner(gameMap);
+    if (position) {
+      return position;
+    }
+    position = this.findAdjacentPosition(gameMap);
+    if (position) {
+      return position;
+    }
+    position = this.randomizer.randomEmptyPosition(gameMap);
+    return position;
   }
 
-  protected getOpponentCell(): Cell | undefined {
-    return this.opponentCell;
-  }
-
-  private selectPositionImpl(gameMap: GameMap): Position | null {
+  protected findLastWinPositionOnAnyLine(gameMap: GameMap): Position | null {
     let position = this.findLastPlaceOnHorizontalLines(gameMap);
     if (position) {
       return position;
@@ -52,34 +75,27 @@ export class NormalAIPlayer implements Player {
     if (position) {
       return position;
     }
-    if (this.isEmptyMap(gameMap)) {
-      return { row: 1, column: 1 };
-    }
-    if (this.isCenterEmptyAndPlacedOneCell(gameMap)) {
-      return { row: 1, column: 1 };
-    }
-    position = this.findRandomCornerIfCenterPlaced(gameMap);
+    return null;
+  }
+
+  private findAdjacentPosition(gameMap: GameMap): Position | null {
+    let position = this.findAdjacentOnHorizontalLines(gameMap);
     if (position) {
       return position;
     }
-    position = this.findNextPlaceOnHorizontalLines(gameMap);
+    position = this.findAdjacentOnVerticalLines(gameMap);
     if (position) {
       return position;
     }
-    position = this.findNextPlaceOnVerticalLines(gameMap);
+    position = this.findAdjacentOnDiagonalDownLine(gameMap);
     if (position) {
       return position;
     }
-    position = this.findNextPlaceOnDiagonalDownLine(gameMap);
+    position = this.findAdjacentOnDiagonalUpLine(gameMap);
     if (position) {
       return position;
     }
-    position = this.findNextPlaceOnDiagonalUpLine(gameMap);
-    if (position) {
-      return position;
-    }
-    position = this.randomizer.randomEmptyPosition(gameMap);
-    return position;
+    return null;
   }
 
   private isEmptyMap(gameMap: GameMap): boolean {
@@ -93,7 +109,7 @@ export class NormalAIPlayer implements Player {
     return true;
   }
 
-  private isCenterEmptyAndPlacedOneCell(gameMap: GameMap): boolean {
+  private isCenterEmptyAndOnlyOneCellOnMap(gameMap: GameMap): boolean {
     if (gameMap[1][1] !== Cell.EMPTY) {
       return false;
     }
@@ -111,7 +127,7 @@ export class NormalAIPlayer implements Player {
     return true;
   }
 
-  private findRandomCornerIfCenterPlaced(gameMap: GameMap): Position | null {
+  private findRandomCorner(gameMap: GameMap): Position | null {
     if (gameMap[1][1] === Cell.EMPTY) {
       return null;
     }
@@ -129,7 +145,7 @@ export class NormalAIPlayer implements Player {
     return this.randomizer.randomCornerPosition(gameMap);
   }
 
-  protected findLastPlaceOnHorizontalLines(gameMap: GameMap): Position | null {
+  private findLastPlaceOnHorizontalLines(gameMap: GameMap): Position | null {
     for (let row = 0; row < 3; row++) {
       const position = this.isHorizontalLineHasLastPlace(gameMap, row);
       if (position) {
@@ -163,7 +179,7 @@ export class NormalAIPlayer implements Player {
     return hasPlayerCell ? lastPosition : null;
   }
 
-  private findNextPlaceOnHorizontalLines(gameMap: GameMap): Position | null {
+  private findAdjacentOnHorizontalLines(gameMap: GameMap): Position | null {
     for (let row = 0; row < 3; row++) {
       const position = this.isHorizontalLineHasNextPlace(gameMap, row);
       if (position) {
@@ -195,7 +211,7 @@ export class NormalAIPlayer implements Player {
     return hasPlayerCell ? nextPosition : null;
   }
 
-  private findNextPlaceOnVerticalLines(gameMap: GameMap): Position | null {
+  private findAdjacentOnVerticalLines(gameMap: GameMap): Position | null {
     for (let column = 0; column < 3; column++) {
       const position = this.isVerticalLineHasNextPlace(gameMap, column);
       if (position) {
@@ -228,7 +244,7 @@ export class NormalAIPlayer implements Player {
     return hasPlayerCell ? nextPosition : null;
   }
 
-  protected findLastPlaceOnVerticalLines(gameMap: GameMap): Position | null {
+  private findLastPlaceOnVerticalLines(gameMap: GameMap): Position | null {
     for (let column = 0; column < 3; column++) {
       const position = this.isVerticalLineHasLastPlace(gameMap, column);
       if (position) {
@@ -263,7 +279,7 @@ export class NormalAIPlayer implements Player {
     return hasPlayerCell ? lastPosition : null;
   }
 
-  private findNextPlaceOnDiagonalDownLine(gameMap: GameMap): Position | null {
+  private findAdjacentOnDiagonalDownLine(gameMap: GameMap): Position | null {
     let hasPlayerCell = false;
     let selectedNextPosition = false;
     let nextPosition: Position = { row: 0, column: 0 };
@@ -304,7 +320,7 @@ export class NormalAIPlayer implements Player {
     return hasPlayerCell ? lastPosition : null;
   }
 
-  private findNextPlaceOnDiagonalUpLine(gameMap: GameMap): Position | null {
+  private findAdjacentOnDiagonalUpLine(gameMap: GameMap): Position | null {
     let hasPlayerCell = false;
     let selectedNextPosition = false;
     let nextPosition: Position = { row: 2, column: 0 };
