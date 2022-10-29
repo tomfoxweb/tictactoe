@@ -1,18 +1,54 @@
 <div class="content-container">
   <h1 class="game-title">Tic Tac Toe</h1>
   <div class="buttons-container">
-    <button class="button-new-game" (click)="newGameHumanVsHuman()">
+    <button
+      class="button-new-game"
+      (click)="newGameHumanVsHuman()"
+      [class.selected]="playerType === 0"
+    >
       Human vs Human
     </button>
-    <button class="button-new-game" (click)="newGameHumanVsRandomAI()">
-      Human vs Random AI
-    </button>
-    <button class="button-new-game" (click)="newGameHumanVsNormalAI()">
-      Human vs Normal AI
-    </button>
-    <button class="button-new-game" (click)="newGameHumanVsHardAI()">
-      Human vs Hard AI
-    </button>
+  </div>
+  <div class="ai-container">
+    <div class="buttons-container">
+      <button
+        class="button-new-game"
+        (click)="setPlayerFigure(0)"
+        [class.selected]="playerFigure === 0"
+      >
+        Figure X
+      </button>
+      <button
+        class="button-new-game"
+        (click)="setPlayerFigure(1)"
+        [class.selected]="playerFigure === 1"
+      >
+        Figure O
+      </button>
+    </div>
+    <div class="buttons-container">
+      <button
+        class="button-new-game"
+        (click)="newGameHumanVsRandomAI()"
+        [class.selected]="playerType === 1"
+      >
+        Random AI
+      </button>
+      <button
+        class="button-new-game"
+        (click)="newGameHumanVsNormalAI()"
+        [class.selected]="playerType === 2"
+      >
+        Normal AI
+      </button>
+      <button
+        class="button-new-game"
+        (click)="newGameHumanVsHardAI()"
+        [class.selected]="playerType === 3"
+      >
+        Hard AI
+      </button>
+    </div>
   </div>
   <div class="cells-container">
     <button

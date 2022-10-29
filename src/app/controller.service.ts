@@ -32,18 +32,30 @@ export class ControllerService {
     this.game!.start(this.playerHumanX!, this.playerHumanO!);
   }
 
-  newGameHumanVsRandomAI() {
+  newGameHumanVsRandomAI(playerFigure: PlayerFigure) {
     this.playerRandomAI = new RandomAIPlayer(new TicTacToeRandomizer());
-    this.game!.start(this.playerHumanX!, this.playerRandomAI);
+    if (playerFigure === PlayerFigure.X) {
+      this.game!.start(this.playerHumanX!, this.playerRandomAI);
+    } else {
+      this.game!.start(this.playerRandomAI, this.playerHumanO!);
+    }
   }
 
-  newGameHumanVsNormalAI() {
+  newGameHumanVsNormalAI(playerFigure: PlayerFigure) {
     this.playerNormalAI = new NormalAIPlayer(new TicTacToeRandomizer());
-    this.game!.start(this.playerHumanX!, this.playerNormalAI);
+    if (playerFigure === PlayerFigure.X) {
+      this.game!.start(this.playerHumanX!, this.playerNormalAI);
+    } else {
+      this.game!.start(this.playerNormalAI, this.playerHumanO!);
+    }
   }
 
-  newGameHumanVsHardAI() {
+  newGameHumanVsHardAI(playerFigure: PlayerFigure) {
     this.playerHardAI = new HardAIPlayer(new TicTacToeRandomizer());
-    this.game!.start(this.playerHumanX!, this.playerHardAI);
+    if (playerFigure === PlayerFigure.X) {
+      this.game!.start(this.playerHumanX!, this.playerHardAI);
+    } else {
+      this.game!.start(this.playerHardAI, this.playerHumanO!);
+    }
   }
 }

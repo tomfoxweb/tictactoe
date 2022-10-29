@@ -22,6 +22,8 @@ interface ViewCell {
 export class AppComponent implements OnInit, AfterViewInit, Viewable {
   title = 'Tic Tac Toe';
   viewCells: ViewCell[] = [];
+  playerFigure = PlayerFigure.X;
+  playerType = 2;
 
   constructor(
     private controller: ControllerService,
@@ -33,7 +35,7 @@ export class AppComponent implements OnInit, AfterViewInit, Viewable {
       const buttonsCell = document.querySelectorAll('.button-cell');
       const observable = fromEvent(buttonsCell, 'click');
       this.controller.setViewAndObservable(this, observable);
-      this.newGameHumanVsHuman();
+      this.newGameHumanVsNormalAI();
     });
   }
 
@@ -55,19 +57,45 @@ export class AppComponent implements OnInit, AfterViewInit, Viewable {
   }
 
   newGameHumanVsHuman() {
-    this.controller.newGameHumanVsHuman();
+    this.playerType = 0;
+    this.startNewGame();
   }
 
   newGameHumanVsRandomAI() {
-    this.controller.newGameHumanVsRandomAI();
+    this.playerType = 1;
+    this.startNewGame();
   }
 
   newGameHumanVsNormalAI() {
-    this.controller.newGameHumanVsNormalAI();
+    this.playerType = 2;
+    this.startNewGame();
   }
 
   newGameHumanVsHardAI() {
-    this.controller.newGameHumanVsHardAI();
+    this.playerType = 3;
+    this.startNewGame();
+  }
+
+  setPlayerFigure(figure: PlayerFigure) {
+    this.playerFigure = figure;
+    this.startNewGame();
+  }
+
+  private startNewGame() {
+    switch (this.playerType) {
+      case 0:
+        this.controller.newGameHumanVsHuman();
+        break;
+      case 1:
+        this.controller.newGameHumanVsRandomAI(this.playerFigure);
+        break;
+      case 2:
+        this.controller.newGameHumanVsNormalAI(this.playerFigure);
+        break;
+      case 3:
+        this.controller.newGameHumanVsHardAI(this.playerFigure);
+        break;
+    }
   }
 
   showCell(row: Row, column: Column, cell: Cell): void {
