@@ -1,0 +1,69 @@
+import { Column, GameMap, Position, Row } from '../game-map';
+import { NormalAIPlayer } from '../normal-ai/normal-ai-player';
+import { Randomizer } from '../randomizer/randomizer';
+
+export class HardAIPlayer extends NormalAIPlayer {
+  constructor(randomizer: Randomizer) {
+    super(randomizer);
+  }
+
+  override selectPosition(gameMap: GameMap): Promise<Position> {
+    return new Promise<Position>((resolve, reject) => {
+      let position = this.selectBlockPosition(gameMap);
+      if (position) {
+        resolve(position);
+      } else {
+        super
+          .selectPosition(gameMap)
+          .then((pos) => {
+            resolve(pos);
+          })
+          .catch((e) => {
+            reject(e);
+          });
+      }
+    });
+  }
+
+  private selectBlockPosition(gameMap: GameMap): Position | null {
+    let position = this.findBlockPlaceOnHorizontalLines(gameMap);
+    if (position) {
+      return position;
+    }
+    return null;
+  }
+
+  private findBlockPlaceOnHorizontalLines(gameMap: GameMap): Position | null {
+    for (let row = 0; row < 3; row++) {
+      const position = this.isHorizontalLineHasBlockPlace(gameMap, row);
+      if (position) {
+        return position;
+      }
+    }
+    return null;
+  }
+
+  private isHorizontalLineHasBlockPlace(
+    gameMap: GameMap,
+    row: number
+  ): Position | null {
+    let hasOpponentCell = false;
+    let selectedBlockPosition = false;
+    let blockPosition: Position = { row: row as Row, column: 0 };
+    for (let column = 0; column < 3; column++) {
+      if (gameMap[row][column] === this.getPlayerCell()) {
+        return null;
+      } else if (gameMap[row][column] === this.getOpponentCell()) {
+        hasOpponentCell = true;
+      } else {
+        if (!selectedBlockPosition) {
+          selectedBlockPosition = true;
+          blockPosition = { row: row as Row, column: column as Column };
+        } else {
+          return null;
+        }
+      }
+    }
+    return hasOpponentCell ? blockPosition : null;
+  }
+}

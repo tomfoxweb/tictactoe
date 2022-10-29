@@ -27,6 +27,14 @@ export class NormalAIPlayer implements Player {
     });
   }
 
+  protected getPlayerCell(): Cell | undefined {
+    return this.playerCell;
+  }
+
+  protected getOpponentCell(): Cell | undefined {
+    return this.opponentCell;
+  }
+
   private selectPositionImpl(gameMap: GameMap): Position | null {
     let position = this.findLastPlaceOnHorizontalLines(gameMap);
     if (position) {
