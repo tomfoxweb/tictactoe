@@ -36,6 +36,10 @@ export class NormalAIPlayer implements Player {
     if (position) {
       return position;
     }
+    position = this.findLastPlaceOnDiagonalDownLine(gameMap);
+    if (position) {
+      return position;
+    }
     if (this.isEmptyMap(gameMap)) {
       return { row: 1, column: 1 };
     }
@@ -265,6 +269,27 @@ export class NormalAIPlayer implements Player {
       }
     }
     return hasPlayerCell ? nextPosition : null;
+  }
+
+  private findLastPlaceOnDiagonalDownLine(gameMap: GameMap): Position | null {
+    let hasPlayerCell = false;
+    let selectedLastPosition = false;
+    let lastPosition: Position = { row: 0, column: 0 };
+    for (let index = 0; index < 3; index++) {
+      if (gameMap[index][index] === this.opponentCell) {
+        return null;
+      } else if (gameMap[index][index] === this.playerCell) {
+        hasPlayerCell = true;
+      } else {
+        if (!selectedLastPosition) {
+          selectedLastPosition = true;
+          lastPosition = { row: index as Row, column: index as Column };
+        } else {
+          return null;
+        }
+      }
+    }
+    return hasPlayerCell ? lastPosition : null;
   }
 
   private findNextPlaceOnDiagonalUpLine(gameMap: GameMap): Position | null {
