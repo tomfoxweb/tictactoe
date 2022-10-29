@@ -11,19 +11,6 @@ export class NormalAIPlayer implements Player {
     this.randomizer = randomizer;
   }
 
-  setFigure(figure: PlayerFigure): void {
-    this.playerCell = figure === PlayerFigure.X ? Cell.X : Cell.O;
-    this.opponentCell = figure === PlayerFigure.X ? Cell.O : Cell.X;
-  }
-
-  protected getPlayerCell(): Cell | undefined {
-    return this.playerCell;
-  }
-
-  protected getOpponentCell(): Cell | undefined {
-    return this.opponentCell;
-  }
-
   selectPosition(gameMap: GameMap): Promise<Position> {
     return new Promise<Position>((resolve, reject) => {
       let position = this.selectPositionImpl(gameMap);
@@ -56,6 +43,19 @@ export class NormalAIPlayer implements Player {
     }
     position = this.randomizer.randomEmptyPosition(gameMap);
     return position;
+  }
+
+  setFigure(figure: PlayerFigure): void {
+    this.playerCell = figure === PlayerFigure.X ? Cell.X : Cell.O;
+    this.opponentCell = figure === PlayerFigure.X ? Cell.O : Cell.X;
+  }
+
+  protected getPlayerCell(): Cell | undefined {
+    return this.playerCell;
+  }
+
+  protected getOpponentCell(): Cell | undefined {
+    return this.opponentCell;
   }
 
   protected findLastWinPositionOnAnyLine(gameMap: GameMap): Position | null {
