@@ -1,15 +1,8 @@
-import { Cell, GameMap, Position } from './game-map';
-import { PlayerFigure } from './player';
+import { AIPlayerTest } from '../ai-player-test';
+import { Cell } from '../game-map';
+import { PlayerFigure } from '../player';
 
-export interface RandomAIPlayerTest {
-  title: string;
-  figure: PlayerFigure;
-  gameMap: GameMap;
-  returnPosition: boolean;
-  position?: Position;
-}
-
-export const randomAIPlayerTests: RandomAIPlayerTest[] = [
+export const randomAIPlayerTests: AIPlayerTest[] = [
   {
     title: 'should select random free position for player X start game',
     figure: PlayerFigure.X,
@@ -19,7 +12,8 @@ export const randomAIPlayerTests: RandomAIPlayerTest[] = [
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ],
     returnPosition: true,
-    position: { row: 2, column: 1 },
+    randomPosition: { row: 2, column: 1 },
+    selectedPosition: { row: 2, column: 1 },
   },
   {
     title: 'should select random free position for player O start game',
@@ -30,7 +24,8 @@ export const randomAIPlayerTests: RandomAIPlayerTest[] = [
       [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
     ],
     returnPosition: true,
-    position: { row: 0, column: 2 },
+    randomPosition: { row: 0, column: 2 },
+    selectedPosition: { row: 0, column: 2 },
   },
   {
     title: 'should select random free position for player X',
@@ -41,7 +36,8 @@ export const randomAIPlayerTests: RandomAIPlayerTest[] = [
       [Cell.X, Cell.O, Cell.EMPTY],
     ],
     returnPosition: true,
-    position: { row: 2, column: 2 },
+    randomPosition: { row: 2, column: 2 },
+    selectedPosition: { row: 2, column: 2 },
   },
   {
     title: 'should select random free position for player O',
@@ -52,7 +48,8 @@ export const randomAIPlayerTests: RandomAIPlayerTest[] = [
       [Cell.X, Cell.EMPTY, Cell.X],
     ],
     returnPosition: true,
-    position: { row: 0, column: 1 },
+    randomPosition: { row: 0, column: 1 },
+    selectedPosition: { row: 0, column: 1 },
   },
   {
     title: 'should throw error no empty for player X',
@@ -63,6 +60,7 @@ export const randomAIPlayerTests: RandomAIPlayerTest[] = [
       [Cell.O, Cell.X, Cell.X],
     ],
     returnPosition: false,
+    randomPosition: { row: 2, column: 2 },
   },
   {
     title: 'should throw error no empty for player O',
@@ -73,5 +71,6 @@ export const randomAIPlayerTests: RandomAIPlayerTest[] = [
       [Cell.X, Cell.O, Cell.X],
     ],
     returnPosition: false,
+    randomPosition: { row: 0, column: 1 },
   },
 ];

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { Game } from './game';
 import { LocalPlayer } from './local-player';
 import { PlayerFigure } from './player';
-import { RandomAIPlayer } from './random-ai-player';
+import { RandomAIPlayer } from './random-ai/random-ai-player';
 import { TicTacToeRandomizer } from './TicTacToeRandomizer';
 import { Viewable } from './viewable';
 
