@@ -28,13 +28,21 @@ export class NormalAIPlayer implements Player {
   }
 
   private selectPositionImpl(gameMap: GameMap): Position | null {
+    let position = this.findLastPlaceOnHorizontalLines(gameMap);
+    if (position) {
+      return position;
+    }
+    position = this.findLastPlaceOnVerticalLines(gameMap);
+    if (position) {
+      return position;
+    }
     if (this.isEmptyMap(gameMap)) {
       return { row: 1, column: 1 };
     }
     if (this.isCenterEmptyAndPlacedOneCell(gameMap)) {
       return { row: 1, column: 1 };
     }
-    let position = this.findRandomCornerIfCenterPlaced(gameMap);
+    position = this.findRandomCornerIfCenterPlaced(gameMap);
     if (position) {
       return position;
     }
@@ -105,6 +113,40 @@ export class NormalAIPlayer implements Player {
     return this.randomizer.randomCornerPosition(gameMap);
   }
 
+  private findLastPlaceOnHorizontalLines(gameMap: GameMap): Position | null {
+    for (let row = 0; row < 3; row++) {
+      const position = this.isHorizontalLineHasLastPlace(gameMap, row);
+      if (position) {
+        return position;
+      }
+    }
+    return null;
+  }
+
+  private isHorizontalLineHasLastPlace(
+    gameMap: GameMap,
+    row: number
+  ): Position | null {
+    let hasPlayerCell = false;
+    let selectedLastPosition = false;
+    let lastPosition: Position = { row: row as Row, column: 0 };
+    for (let column = 0; column < 3; column++) {
+      if (gameMap[row][column] === this.opponentCell) {
+        return null;
+      } else if (gameMap[row][column] === this.playerCell) {
+        hasPlayerCell = true;
+      } else {
+        if (!selectedLastPosition) {
+          selectedLastPosition = true;
+          lastPosition = { row: row as Row, column: column as Column };
+        } else {
+          return null;
+        }
+      }
+    }
+    return hasPlayerCell ? lastPosition : null;
+  }
+
   private findNextPlaceOnHorizontalLines(gameMap: GameMap): Position | null {
     for (let row = 0; row < 3; row++) {
       const position = this.isHorizontalLineHasNextPlace(gameMap, row);
@@ -168,6 +210,41 @@ export class NormalAIPlayer implements Player {
       }
     }
     return hasPlayerCell ? nextPosition : null;
+  }
+
+  private findLastPlaceOnVerticalLines(gameMap: GameMap): Position | null {
+    for (let column = 0; column < 3; column++) {
+      const position = this.isVerticalLineHasLastPlace(gameMap, column);
+      if (position) {
+        return position;
+      }
+    }
+    return null;
+  }
+
+  private isVerticalLineHasLastPlace(
+    gameMap: GameMap,
+    column: number
+  ): Position | null {
+    let hasPlayerCell = false;
+    let selectedLastPosition = false;
+    let lastPosition: Position = { row: 0, column: column as Column };
+    for (let row = 0; row < 3; row++) {
+      if (gameMap[row][column] === this.opponentCell) {
+        return null;
+      } else if (gameMap[row][column] === this.playerCell) {
+        hasPlayerCell = true;
+      } else {
+        if (!selectedLastPosition) {
+          selectedLastPosition = true;
+          lastPosition = { row: row as Row, column: column as Column };
+          selectedLastPosition = true;
+        } else {
+          return null;
+        }
+      }
+    }
+    return hasPlayerCell ? lastPosition : null;
   }
 
   private findNextPlaceOnDiagonalDownLine(gameMap: GameMap): Position | null {
