@@ -155,4 +155,32 @@ export const normalAIPlayerTests: AIPlayerTest[] = [
     randomCornerPosition: { row: 1, column: 2 },
     selectedPosition: { row: 0, column: 1 },
   },
+  {
+    title: 'should select next horizontal cell player O',
+    figure: PlayerFigure.O,
+    gameMap: [
+      [Cell.O, Cell.EMPTY, Cell.EMPTY],
+      [Cell.EMPTY, Cell.X, Cell.EMPTY],
+      [Cell.X, Cell.EMPTY, Cell.EMPTY],
+    ],
+    returnPosition: true,
+    returnCorner: false,
+    randomPosition: { row: 2, column: 2 },
+    randomCornerPosition: { row: 1, column: 2 },
+    selectedPosition: { row: 0, column: 1 },
+  },
+  {
+    title: 'should select last horizontal cell player O',
+    figure: PlayerFigure.O,
+    gameMap: [
+      [Cell.O, Cell.O, Cell.EMPTY],
+      [Cell.EMPTY, Cell.X, Cell.EMPTY],
+      [Cell.X, Cell.EMPTY, Cell.X],
+    ],
+    returnPosition: true,
+    returnCorner: false,
+    randomPosition: { row: 2, column: 1 },
+    randomCornerPosition: { row: 1, column: 0 },
+    selectedPosition: { row: 0, column: 2 },
+  },
 ];
