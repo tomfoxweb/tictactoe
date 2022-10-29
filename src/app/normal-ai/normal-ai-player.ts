@@ -42,6 +42,10 @@ export class NormalAIPlayer implements Player {
     if (position) {
       return position;
     }
+    position = this.findNextPlaceOnVerticalLines(gameMap);
+    if (position) {
+      return position;
+    }
     position = this.randomizer.randomEmptyPosition(gameMap);
     return position;
   }
@@ -111,6 +115,39 @@ export class NormalAIPlayer implements Player {
     let selectedNextPosition = false;
     let nextPosition: Position = { row: row as Row, column: 0 };
     for (let column = 0; column < 3; column++) {
+      if (gameMap[row][column] === this.opponentCell) {
+        return null;
+      } else if (gameMap[row][column] === this.playerCell) {
+        hasPlayerCell = true;
+      } else {
+        if (!selectedNextPosition) {
+          selectedNextPosition = true;
+          nextPosition = { row: row as Row, column: column as Column };
+          selectedNextPosition = true;
+        }
+      }
+    }
+    return hasPlayerCell ? nextPosition : null;
+  }
+
+  private findNextPlaceOnVerticalLines(gameMap: GameMap): Position | null {
+    for (let column = 0; column < 3; column++) {
+      const position = this.isVerticalLineHasNextPlace(gameMap, column);
+      if (position) {
+        return position;
+      }
+    }
+    return null;
+  }
+
+  private isVerticalLineHasNextPlace(
+    gameMap: GameMap,
+    column: number
+  ): Position | null {
+    let hasPlayerCell = false;
+    let selectedNextPosition = false;
+    let nextPosition: Position = { row: 0, column: column as Column };
+    for (let row = 0; row < 3; row++) {
       if (gameMap[row][column] === this.opponentCell) {
         return null;
       } else if (gameMap[row][column] === this.playerCell) {
