@@ -30,6 +30,10 @@ export class HardAIPlayer extends NormalAIPlayer {
     if (position) {
       return position;
     }
+    position = this.findBlockPlaceOnVerticalLines(gameMap);
+    if (position) {
+      return position;
+    }
     return null;
   }
 
@@ -65,5 +69,40 @@ export class HardAIPlayer extends NormalAIPlayer {
       }
     }
     return hasOpponentCell ? blockPosition : null;
+  }
+
+  private findBlockPlaceOnVerticalLines(gameMap: GameMap): Position | null {
+    for (let column = 0; column < 3; column++) {
+      const position = this.isVerticalLineHasBlockPlace(gameMap, column);
+      if (position) {
+        return position;
+      }
+    }
+    return null;
+  }
+
+  private isVerticalLineHasBlockPlace(
+    gameMap: GameMap,
+    column: number
+  ): Position | null {
+    let hasPlayerCell = false;
+    let selectedLastPosition = false;
+    let lastPosition: Position = { row: 0, column: column as Column };
+    for (let row = 0; row < 3; row++) {
+      if (gameMap[row][column] === this.getPlayerCell()) {
+        return null;
+      } else if (gameMap[row][column] === this.getOpponentCell()) {
+        hasPlayerCell = true;
+      } else {
+        if (!selectedLastPosition) {
+          selectedLastPosition = true;
+          lastPosition = { row: row as Row, column: column as Column };
+          selectedLastPosition = true;
+        } else {
+          return null;
+        }
+      }
+    }
+    return hasPlayerCell ? lastPosition : null;
   }
 }

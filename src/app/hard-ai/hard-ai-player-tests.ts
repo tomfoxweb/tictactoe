@@ -42,4 +42,43 @@ export const hardAIPlayerTests: AIPlayerTest[] = [
     randomPosition: { row: 0, column: 2 },
     selectedPosition: { row: 1, column: 2 },
   },
+  {
+    title: 'should select cell for block opponent last on vert line player X',
+    figure: PlayerFigure.X,
+    gameMap: [
+      [Cell.O, Cell.EMPTY, Cell.EMPTY],
+      [Cell.O, Cell.X, Cell.X],
+      [Cell.EMPTY, Cell.X, Cell.EMPTY],
+    ],
+    returnPosition: true,
+    returnCorner: false,
+    randomPosition: { row: 0, column: 2 },
+    selectedPosition: { row: 2, column: 0 },
+  },
+  {
+    title: 'should select cell for block opponent last on vert line player O',
+    figure: PlayerFigure.O,
+    gameMap: [
+      [Cell.O, Cell.X, Cell.EMPTY],
+      [Cell.EMPTY, Cell.X, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+    ],
+    returnPosition: true,
+    returnCorner: false,
+    randomPosition: { row: 0, column: 2 },
+    selectedPosition: { row: 2, column: 1 },
+  },
+  {
+    title: 'should select cell for block opponent last on vert line player X',
+    figure: PlayerFigure.X,
+    gameMap: [
+      [Cell.EMPTY, Cell.X, Cell.O],
+      [Cell.X, Cell.EMPTY, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.O],
+    ],
+    returnPosition: true,
+    returnCorner: false,
+    randomPosition: { row: 0, column: 2 },
+    selectedPosition: { row: 1, column: 2 },
+  },
 ];
