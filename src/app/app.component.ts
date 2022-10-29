@@ -66,6 +66,10 @@ export class AppComponent implements OnInit, AfterViewInit, Viewable {
     this.controller.newGameHumanVsNormalAI();
   }
 
+  newGameHumanVsHardAI() {
+    this.controller.newGameHumanVsHardAI();
+  }
+
   showCell(row: Row, column: Column, cell: Cell): void {
     const index = row * 3 + column;
     const imageInfo = this.imageProvider.getImageInfo(cell);

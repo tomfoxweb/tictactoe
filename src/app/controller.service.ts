@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Game } from './game';
+import { HardAIPlayer } from './hard-ai/hard-ai-player';
 import { LocalPlayer } from './local-player';
 import { NormalAIPlayer } from './normal-ai/normal-ai-player';
 import { PlayerFigure } from './player';
@@ -17,6 +18,7 @@ export class ControllerService {
   private playerHumanO: LocalPlayer | undefined;
   private playerRandomAI: RandomAIPlayer | undefined;
   private playerNormalAI: NormalAIPlayer | undefined;
+  private playerHardAI: HardAIPlayer | undefined;
 
   constructor() {}
 
@@ -38,5 +40,10 @@ export class ControllerService {
   newGameHumanVsNormalAI() {
     this.playerNormalAI = new NormalAIPlayer(new TicTacToeRandomizer());
     this.game!.start(this.playerHumanX!, this.playerNormalAI);
+  }
+
+  newGameHumanVsHardAI() {
+    this.playerHardAI = new HardAIPlayer(new TicTacToeRandomizer());
+    this.game!.start(this.playerHumanX!, this.playerHardAI);
   }
 }

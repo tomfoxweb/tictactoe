@@ -26,7 +26,23 @@ export class HardAIPlayer extends NormalAIPlayer {
   }
 
   private selectBlockPosition(gameMap: GameMap): Position | null {
-    let position = this.findBlockPlaceOnHorizontalLines(gameMap);
+    let position = this.findLastPlaceOnHorizontalLines(gameMap);
+    if (position) {
+      return position;
+    }
+    position = this.findBlockPlaceOnVerticalLines(gameMap);
+    if (position) {
+      return position;
+    }
+    position = this.findLastPlaceOnDiagonalDownLine(gameMap);
+    if (position) {
+      return position;
+    }
+    position = this.findLastBlockOnDiagonalUpLine(gameMap);
+    if (position) {
+      return position;
+    }
+    position = this.findBlockPlaceOnHorizontalLines(gameMap);
     if (position) {
       return position;
     }

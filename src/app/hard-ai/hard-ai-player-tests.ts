@@ -33,9 +33,9 @@ export const hardAIPlayerTests: AIPlayerTest[] = [
     title: 'should select cell for block opponent last on horiz line player X',
     figure: PlayerFigure.X,
     gameMap: [
-      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+      [Cell.EMPTY, Cell.X, Cell.EMPTY],
       [Cell.O, Cell.O, Cell.EMPTY],
-      [Cell.EMPTY, Cell.X, Cell.X],
+      [Cell.EMPTY, Cell.EMPTY, Cell.X],
     ],
     returnPosition: true,
     returnCorner: false,

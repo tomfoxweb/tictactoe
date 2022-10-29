@@ -129,7 +129,7 @@ export class NormalAIPlayer implements Player {
     return this.randomizer.randomCornerPosition(gameMap);
   }
 
-  private findLastPlaceOnHorizontalLines(gameMap: GameMap): Position | null {
+  protected findLastPlaceOnHorizontalLines(gameMap: GameMap): Position | null {
     for (let row = 0; row < 3; row++) {
       const position = this.isHorizontalLineHasLastPlace(gameMap, row);
       if (position) {
@@ -228,7 +228,7 @@ export class NormalAIPlayer implements Player {
     return hasPlayerCell ? nextPosition : null;
   }
 
-  private findLastPlaceOnVerticalLines(gameMap: GameMap): Position | null {
+  protected findLastPlaceOnVerticalLines(gameMap: GameMap): Position | null {
     for (let column = 0; column < 3; column++) {
       const position = this.isVerticalLineHasLastPlace(gameMap, column);
       if (position) {
@@ -283,7 +283,7 @@ export class NormalAIPlayer implements Player {
     return hasPlayerCell ? nextPosition : null;
   }
 
-  private findLastPlaceOnDiagonalDownLine(gameMap: GameMap): Position | null {
+  protected findLastPlaceOnDiagonalDownLine(gameMap: GameMap): Position | null {
     let hasPlayerCell = false;
     let selectedLastPosition = false;
     let lastPosition: Position = { row: 0, column: 0 };
@@ -324,7 +324,7 @@ export class NormalAIPlayer implements Player {
     return hasPlayerCell ? nextPosition : null;
   }
 
-  private findLastPlaceOnDiagonalUpLine(gameMap: GameMap): Position | null {
+  protected findLastPlaceOnDiagonalUpLine(gameMap: GameMap): Position | null {
     let hasPlayerCell = false;
     let selectedLastPosition = false;
     let lastPosition: Position = { row: 2, column: 0 };
