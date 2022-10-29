@@ -1,5 +1,4 @@
-import { animationFrameScheduler } from 'rxjs';
-import { GameMap, Position } from './game-map';
+import { Position } from './game-map';
 import { Player, PlayerFigure } from './player';
 import { GameStatus, Referee } from './referee';
 import { Viewable } from './viewable';
@@ -26,7 +25,7 @@ export class Game {
     this.activePlayer = this.playerX;
     this.activePlayerFigure = PlayerFigure.X;
     this.referee.newGame();
-    while (true) {
+    while (!this.isGameOver(this.referee.getStatus())) {
       const gameMap = this.referee.getMap();
       let position: Position;
       try {
@@ -37,11 +36,7 @@ export class Game {
       if (!this.referee.acceptPosition(this.activePlayerFigure, position)) {
         continue;
       }
-      const gameStatus = this.referee.getStatus();
-      if (this.isGameOver(gameStatus)) {
-        break;
-      }
-      this.switchActivePlayer(gameStatus);
+      this.switchActivePlayer(this.referee.getStatus());
     }
   }
 

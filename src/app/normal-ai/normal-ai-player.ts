@@ -131,7 +131,6 @@ export class NormalAIPlayer implements Player {
         if (!selectedNextPosition) {
           selectedNextPosition = true;
           nextPosition = { row: row as Row, column: column as Column };
-          selectedNextPosition = true;
         }
       }
     }

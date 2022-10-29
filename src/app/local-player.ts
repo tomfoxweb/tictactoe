@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Observer } from 'rxjs';
 import { Cell, Column, GameMap, Position, Row } from './game-map';
 import { Player, PlayerFigure } from './player';
 
