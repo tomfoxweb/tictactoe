@@ -38,6 +38,10 @@ export class HardAIPlayer extends NormalAIPlayer {
     if (position) {
       return position;
     }
+    position = this.findLastBlockOnDiagonalUpLine(gameMap);
+    if (position) {
+      return position;
+    }
     return null;
   }
 
@@ -123,6 +127,28 @@ export class HardAIPlayer extends NormalAIPlayer {
         if (!selectedLastPosition) {
           selectedLastPosition = true;
           lastPosition = { row: index as Row, column: index as Column };
+        } else {
+          return null;
+        }
+      }
+    }
+    return hasPlayerCell ? lastPosition : null;
+  }
+
+  private findLastBlockOnDiagonalUpLine(gameMap: GameMap): Position | null {
+    let hasPlayerCell = false;
+    let selectedLastPosition = false;
+    let lastPosition: Position = { row: 2, column: 0 };
+    for (let index = 0; index < 3; index++) {
+      if (gameMap[2 - index][index] === this.getPlayerCell()) {
+        return null;
+      } else if (gameMap[2 - index][index] === this.getOpponentCell()) {
+        hasPlayerCell = true;
+      } else {
+        if (!selectedLastPosition) {
+          selectedLastPosition = true;
+          lastPosition = { row: (2 - index) as Row, column: index as Column };
+          selectedLastPosition = true;
         } else {
           return null;
         }
