@@ -81,4 +81,32 @@ export const hardAIPlayerTests: AIPlayerTest[] = [
     randomPosition: { row: 0, column: 2 },
     selectedPosition: { row: 1, column: 2 },
   },
+  {
+    title:
+      'should select cell for block opponent last on diag down line player X',
+    figure: PlayerFigure.X,
+    gameMap: [
+      [Cell.O, Cell.EMPTY, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+      [Cell.X, Cell.X, Cell.O],
+    ],
+    returnPosition: true,
+    returnCorner: false,
+    randomPosition: { row: 0, column: 2 },
+    selectedPosition: { row: 1, column: 1 },
+  },
+  {
+    title:
+      'should select cell for block opponent last on diag down line player O',
+    figure: PlayerFigure.O,
+    gameMap: [
+      [Cell.X, Cell.EMPTY, Cell.EMPTY],
+      [Cell.O, Cell.X, Cell.EMPTY],
+      [Cell.EMPTY, Cell.EMPTY, Cell.EMPTY],
+    ],
+    returnPosition: true,
+    returnCorner: false,
+    randomPosition: { row: 0, column: 2 },
+    selectedPosition: { row: 2, column: 2 },
+  },
 ];
