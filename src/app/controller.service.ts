@@ -4,7 +4,7 @@ import { Game } from './game';
 import { LocalPlayer } from './local-player';
 import { PlayerFigure } from './player';
 import { RandomAIPlayer } from './random-ai/random-ai-player';
-import { TicTacToeRandomizer } from './TicTacToeRandomizer';
+import { TicTacToeRandomizer } from './randomizer/TicTacToeRandomizer';
 import { Viewable } from './viewable';
 
 @Injectable({

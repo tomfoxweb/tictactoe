@@ -1,6 +1,6 @@
 import { GameMap, Position } from '../game-map';
 import { Player, PlayerFigure } from '../player';
-import { Randomizer } from '../randomizer';
+import { Randomizer } from '../randomizer/randomizer';
 
 export class RandomAIPlayer implements Player {
   private randomizer: Randomizer;

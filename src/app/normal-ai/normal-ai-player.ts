@@ -1,6 +1,6 @@
 import { Cell, GameMap, Position } from '../game-map';
 import { Player, PlayerFigure } from '../player';
-import { Randomizer } from '../randomizer';
+import { Randomizer } from '../randomizer/randomizer';
 
 export class NormalAIPlayer implements Player {
   private randomizer: Randomizer;
@@ -19,7 +19,10 @@ export class NormalAIPlayer implements Player {
       } else if (this.isCenterEmptyAndPlacedOneCell(gameMap)) {
         position = { row: 1, column: 1 };
       } else {
-        position = this.randomizer.randomEmptyPosition(gameMap);
+        position = this.randomizer.randomCornerPosition(gameMap);
+        if (position === null) {
+          position = this.randomizer.randomEmptyPosition(gameMap);
+        }
         if (!position) {
           reject(new Error('No empty position on map'));
         }

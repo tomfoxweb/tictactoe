@@ -6,6 +6,8 @@ export interface AIPlayerTest {
   figure: PlayerFigure;
   gameMap: GameMap;
   returnPosition: boolean;
+  returnCorner: boolean;
   randomPosition: Position;
+  randomCornerPosition?: Position;
   selectedPosition?: Position;
 }
