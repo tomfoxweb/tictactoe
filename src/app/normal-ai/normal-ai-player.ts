@@ -50,6 +50,10 @@ export class NormalAIPlayer implements Player {
     if (position) {
       return position;
     }
+    position = this.findNextPlaceOnDiagonalUpLine(gameMap);
+    if (position) {
+      return position;
+    }
     position = this.randomizer.randomEmptyPosition(gameMap);
     return position;
   }
@@ -180,6 +184,26 @@ export class NormalAIPlayer implements Player {
         if (!selectedNextPosition) {
           selectedNextPosition = true;
           nextPosition = { row: index as Row, column: index as Column };
+          selectedNextPosition = true;
+        }
+      }
+    }
+    return hasPlayerCell ? nextPosition : null;
+  }
+
+  private findNextPlaceOnDiagonalUpLine(gameMap: GameMap): Position | null {
+    let hasPlayerCell = false;
+    let selectedNextPosition = false;
+    let nextPosition: Position = { row: 2, column: 0 };
+    for (let index = 0; index < 3; index++) {
+      if (gameMap[2 - index][index] === this.opponentCell) {
+        return null;
+      } else if (gameMap[2 - index][index] === this.playerCell) {
+        hasPlayerCell = true;
+      } else {
+        if (!selectedNextPosition) {
+          selectedNextPosition = true;
+          nextPosition = { row: (2 - index) as Row, column: index as Column };
           selectedNextPosition = true;
         }
       }
