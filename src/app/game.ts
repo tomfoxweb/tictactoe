@@ -10,6 +10,7 @@ export class Game {
   private playerO: Player | undefined;
   private activePlayer: Player | undefined;
   private activePlayerFigure: PlayerFigure;
+  private timeBetweenTurns = 300;
 
   constructor(view: Viewable) {
     this.view = view;
@@ -17,7 +18,8 @@ export class Game {
     this.activePlayerFigure = PlayerFigure.X;
   }
 
-  async start(playerX: Player, playerO: Player) {
+  async start(playerX: Player, playerO: Player, timeBetweenTurns = 300) {
+    this.timeBetweenTurns = timeBetweenTurns;
     this.playerX = playerX;
     this.playerO = playerO;
     this.playerX.setFigure(PlayerFigure.X);
@@ -37,6 +39,9 @@ export class Game {
         continue;
       }
       this.switchActivePlayer(this.referee.getStatus());
+      if (this.timeBetweenTurns > 0) {
+        await this.wait(this.timeBetweenTurns);
+      }
     }
   }
 
@@ -61,5 +66,13 @@ export class Game {
       return true;
     }
     return false;
+  }
+
+  private wait(time: number) {
+    return new Promise<void>((resolve) => {
+      window.setTimeout(() => {
+        resolve();
+      }, time);
+    });
   }
 }

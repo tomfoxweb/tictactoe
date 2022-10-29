@@ -29,7 +29,7 @@ export class ControllerService {
   }
 
   newGameHumanVsHuman() {
-    this.game!.start(this.playerHumanX!, this.playerHumanO!);
+    this.game!.start(this.playerHumanX!, this.playerHumanO!, 0);
   }
 
   newGameHumanVsRandomAI(playerFigure: PlayerFigure) {

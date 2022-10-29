@@ -82,6 +82,12 @@ $content-min-width: 100px;
         aspect-ratio: 1;
         width: auto;
         height: auto;
+        opacity: 1;
+        transition: opacity 0.3s ease-in;
+
+        &.empty {
+          opacity: 0;
+        }
       }
     }
   }

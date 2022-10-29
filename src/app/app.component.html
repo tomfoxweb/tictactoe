@@ -58,7 +58,13 @@
       [attr.data-column]="info.column"
       [class.empty]="info.cell === 0"
     >
-      <img src="{{ info.src }}" alt="{{ info.alt }}" width="150" height="150" />
+      <img
+        src="{{ info.src }}"
+        alt="{{ info.alt }}"
+        width="150"
+        height="150"
+        [class.empty]="info.cell === 0"
+      />
     </button>
   </div>
 </div>
